@@ -47,13 +47,16 @@ th{background:#00aaff;}
 tr:hover{background:#1b2a44;}
 
 /* رنک */
-.rank10{color:#ff3b3b;font-weight:bold;}
-.rank9{color:#ff7a00;font-weight:bold;}
-.rank7{color:#ffd000;font-weight:bold;}
-.rank4{color:#a6ff00;font-weight:bold;}
-.rank3{color:#00ffa6;}
-.rank2{color:#00c2ff;}
-.rank1{color:#b0b0b0;}
+.rank10{color:#ff2d2d; font-weight:bold;} /* قرمز خیلی قوی - بالاترین رنک */
+.rank9{color:#ff5e00; font-weight:bold;}  /* نارنجی تند */
+.rank8{color:#ff9f1a; font-weight:bold;}  /* نارنجی طلایی */
+.rank7{color:#ffd000; font-weight:bold;}  /* زرد طلایی */
+.rank6{color:#b6ff00; font-weight:bold;}  /* سبز-زرد */
+.rank5{color:#00ff6a; font-weight:bold;}  /* سبز روشن */
+.rank4{color:#00ffa6; font-weight:bold;}  /* سبز-فیروزه‌ای */
+.rank3{color:#00d4ff; font-weight:bold;}  /* آبی روشن */
+.rank2{color:#3b82f6; font-weight:bold;}  /* آبی متوسط */
+.rank1{color:#a1a1aa; font-weight:bold;}  /* خاکستری - پایین‌ترین */
 
 #panel{display:none;margin:15px;}
 </style>
@@ -61,7 +64,7 @@ tr:hover{background:#1b2a44;}
 
 <body>
 
-<h1>Sanchez RP Admin Panel</h1>
+<h1>Sanchez Admin Panel</h1>
 
 <!-- LOGIN -->
 <div id="loginBox">
@@ -160,10 +163,13 @@ function render(){
                 <select onchange="changeRank(${i},this.value)">
                     <option ${u.rank==10?"selected":""} value="10">10</option>
                     <option ${u.rank==9?"selected":""} value="9">9</option>
-                    <option ${u.rank==7?"selected":""} value="7">7</option>
-                    <option ${u.rank==4?"selected":""} value="4">4</option>
-                    <option ${u.rank==3?"selected":""} value="3">3</option>
-                    <option ${u.rank==2?"selected":""} value="2">2</option>
+                    <option ${u.rank==8?"selected":""} value="7">7</option>
+                    <option ${u.rank==7?"selected":""} value="4">4</option>
+                    <option ${u.rank==6?"selected":""} value="3">3</option>
+                    <option ${u.rank==5?"selected":""} value="2">2</option>
+                    <option ${u.rank==4?"selected":""} value="1">1</option>
+                    <option ${u.rank==3?"selected":""} value="1">1</option>
+                    <option ${u.rank==2?"selected":""} value="1">1</option>
                     <option ${u.rank==1?"selected":""} value="1">1</option>
                 </select>
             </td>
