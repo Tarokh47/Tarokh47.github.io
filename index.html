@@ -2,7 +2,7 @@
 <html lang="fa">
 <head>
 <meta charset="UTF-8">
-<title>لیست کاربران</title>
+<title>RP Panel</title>
 
 <style>
 body{
@@ -16,9 +16,9 @@ body{
 h1{color:#00d4ff;}
 
 input,button,select{
-    padding:10px;
-    margin:5px;
-    border-radius:8px;
+    padding:8px;
+    margin:4px;
+    border-radius:6px;
     border:none;
 }
 
@@ -30,7 +30,7 @@ button{
 
 table{
     margin:auto;
-    width:80%;
+    width:85%;
     border-collapse:collapse;
     background:#111b2e;
     border-radius:10px;
@@ -38,7 +38,7 @@ table{
 }
 
 th,td{
-    padding:12px;
+    padding:10px;
     border-bottom:1px solid #223;
 }
 
@@ -46,7 +46,7 @@ th{background:#00aaff;}
 
 tr:hover{background:#1b2a44;}
 
-/* رنک‌ها */
+/* رنک */
 .rank10{color:#ff3b3b;font-weight:bold;}
 .rank9{color:#ff7a00;font-weight:bold;}
 .rank7{color:#ffd000;font-weight:bold;}
@@ -55,25 +55,22 @@ tr:hover{background:#1b2a44;}
 .rank2{color:#00c2ff;}
 .rank1{color:#b0b0b0;}
 
-#adminPanel{
-    display:none;
-    margin:20px;
-}
+#panel{display:none;margin:15px;}
 </style>
 </head>
 
 <body>
 
-<h1>لیست کاربران سرور Sanchez RP</h1>
+<h1>Sanchez RP Admin Panel</h1>
 
-<!-- لاگین ادمین -->
+<!-- LOGIN -->
 <div id="loginBox">
     <input type="password" id="pass" placeholder="رمز ادمین">
-    <button onclick="login()">ورود ادمین</button>
+    <button onclick="login()">ورود</button>
 </div>
 
-<!-- پنل ادمین -->
-<div id="adminPanel">
+<!-- ADMIN PANEL -->
+<div id="panel">
 
     <input type="text" id="name" placeholder="نام کاربر">
 
@@ -87,8 +84,7 @@ tr:hover{background:#1b2a44;}
         <option value="1">1</option>
     </select>
 
-    <button onclick="addUser()">افزودن</button>
-
+    <button onclick="addUser()">➕ افزودن</button>
 </div>
 
 <input type="text" id="search" placeholder="جستجو...">
@@ -97,64 +93,38 @@ tr:hover{background:#1b2a44;}
 
 <script>
 
-const ADMIN_PASS = "1234"; // 🔐 رمزتو اینجا عوض کن
-
+const PASS = "1234"; // 🔐 رمز
 let isAdmin = false;
 
-let users = JSON.parse(localStorage.getItem("users")) || [
-    {name:"Parham Sanchez",rank:10},
-    {name:"Arian Sanchez",rank:10},
-    {name:"Mohsen Sanchez",rank:9},
-    {name:"Tarokh Sanchez",rank:7},
-    {name:"Barad Sanchez",rank:7},
-    {name:"Mobin K",rank:7},
-    {name:"Abtin Sanchez",rank:4},
-    {name:"Amir Khodavandi",rank:3},
-    {name:"Samyar Hossini",rank:3},
-    {name:"Shariif Badri",rank:3},
-    {name:"Mesa Mehran",rank:3},
-    {name:"Nikan Sanchez",rank:3},
-    {name:"Gabimro Holo",rank:2},
-    {name:"Mahanzx Mahanzx",rank:2},
-    {name:"Lio Matin",rank:1},
-    {name:"Amoo Wolverine",rank:1},
-    {name:"Hossein Mansory",rank:1},
-    {name:"Arslan Odis",rank:1},
-    {name:"Mahziyar Rastgoo",rank:1},
-    {name:"Arashk Mozafari",rank:1},
-    {name:"Radin Bongo",rank:1},
-    {name:"Arman Org",rank:1},
-    {name:"Erfan Rs",rank:1}
-];
+let users = JSON.parse(localStorage.getItem("users")) || [];
 
 function save(){
     localStorage.setItem("users",JSON.stringify(users));
 }
 
 function login(){
-    let p = document.getElementById("pass").value;
-    if(p === ADMIN_PASS){
+    if(document.getElementById("pass").value === PASS){
         isAdmin = true;
         document.getElementById("loginBox").style.display="none";
-        document.getElementById("adminPanel").style.display="block";
+        document.getElementById("panel").style.display="block";
         render();
     }else{
-        alert("رمز اشتباهه!");
+        alert("رمز اشتباهه");
     }
 }
 
 function addUser(){
     let name = document.getElementById("name").value;
-    let rank = document.getElementById("rank").value;
+    let rank = Number(document.getElementById("rank").value);
 
     if(name==="") return;
 
-    users.push({name,rank:Number(rank)});
+    users.push({name,rank});
     save();
     render();
 }
 
-function del(i){
+function deleteUser(i){
     if(isAdmin){
         users.splice(i,1);
         save();
@@ -162,8 +132,13 @@ function del(i){
     }
 }
 
+function changeRank(i,newRank){
+    users[i].rank = Number(newRank);
+    save();
+    render();
+}
+
 function render(){
-    let table = document.getElementById("table");
 
     users.sort((a,b)=>b.rank-a.rank);
 
@@ -171,7 +146,7 @@ function render(){
     <tr>
         <th>نام</th>
         <th>رنک</th>
-        ${isAdmin ? "<th>حذف</th>" : ""}
+        ${isAdmin ? "<th>ویرایش رنک</th><th>حذف</th>" : ""}
     </tr>`;
 
     users.forEach((u,i)=>{
@@ -179,20 +154,36 @@ function render(){
         <tr>
             <td>${u.name}</td>
             <td class="rank${u.rank}">${u.rank}</td>
-            ${isAdmin ? `<td><button onclick="del(${i})">❌</button></td>` : ""}
+
+            ${isAdmin ? `
+            <td>
+                <select onchange="changeRank(${i},this.value)">
+                    <option ${u.rank==10?"selected":""} value="10">10</option>
+                    <option ${u.rank==9?"selected":""} value="9">9</option>
+                    <option ${u.rank==7?"selected":""} value="7">7</option>
+                    <option ${u.rank==4?"selected":""} value="4">4</option>
+                    <option ${u.rank==3?"selected":""} value="3">3</option>
+                    <option ${u.rank==2?"selected":""} value="2">2</option>
+                    <option ${u.rank==1?"selected":""} value="1">1</option>
+                </select>
+            </td>
+
+            <td><button onclick="deleteUser(${i})">❌</button></td>
+            ` : ""}
         </tr>`;
     });
 
-    table.innerHTML = html;
+    document.getElementById("table").innerHTML = html;
 }
 
 document.getElementById("search").addEventListener("keyup",function(){
     let f = this.value.toLowerCase();
     let rows = document.querySelectorAll("tr");
 
-    rows.forEach((r,i)=>{if(i==0) return;
-        let name = r.children[0].innerText.toLowerCase();
-        r.style.display = name.includes(f) ? "" : "none";
+    rows.forEach((r,i)=>{
+        if(i==0) return;
+        let name = r.children[0]?.innerText.toLowerCase();
+        r.style.display = name?.includes(f) ? "" : "none";
     });
 });
 
