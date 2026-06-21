@@ -13,17 +13,19 @@ body{
     padding:20px;
 }
 
-h1{
-    color:#00d4ff;
-    margin-bottom:20px;
-}
+h1{color:#00d4ff;}
 
-input{
+input, select, button{
     padding:10px;
-    width:60%;
+    margin:5px;
     border-radius:8px;
     border:none;
-    margin-bottom:20px;
+}
+
+button{
+    cursor:pointer;
+    background:#00aaff;
+    color:white;
 }
 
 table{
@@ -33,6 +35,7 @@ table{
     background:#111b2e;
     border-radius:10px;
     overflow:hidden;
+    margin-top:20px;
 }
 
 th,td{
@@ -40,19 +43,14 @@ th,td{
     border-bottom:1px solid #223;
 }
 
-th{
-    background:#00aaff;
-}
+th{background:#00aaff;}
 
-tr:hover{
-    background:#1b2a44;
-}
+tr:hover{background:#1b2a44;}
 
-/* رنک‌ها */
-.rank10{color:#ff3b3b; font-weight:bold;}
-.rank9{color:#ff7a00; font-weight:bold;}
-.rank7{color:#ffd000; font-weight:bold;}
-.rank4{color:#a6ff00; font-weight:bold;}
+.rank10{color:#ff3b3b;font-weight:bold;}
+.rank9{color:#ff7a00;font-weight:bold;}
+.rank7{color:#ffd000;font-weight:bold;}
+.rank4{color:#a6ff00;font-weight:bold;}
 .rank3{color:#00ffa6;}
 .rank2{color:#00c2ff;}
 .rank1{color:#b0b0b0;}
@@ -61,59 +59,94 @@ tr:hover{
 
 <body>
 
-<h1>لیست کاربران سرور Sanchez Salvatores</h1>
+<h1>لیست کاربران سرور</h1>
 
-<input type="text" id="search" placeholder="جستجوی نام کاربر...">
+<input type="text" id="search" placeholder="جستجو...">
+
+<br>
+
+<input type="text" id="name" placeholder="نام کاربر">
+<select id="rank">
+    <option value="10">10</option>
+    <option value="9">9</option>
+    <option value="7">7</option>
+    <option value="4">4</option>
+    <option value="3">3</option>
+    <option value="2">2</option>
+    <option value="1">1</option>
+</select>
+
+<button onclick="addUser()">افزودن</button>
 
 <table id="table">
 <tr>
 <th>نام</th>
 <th>رنک</th>
+<th>حذف</th>
 </tr>
-
-<tr><td>Parham Sanchez</td><td class="rank10">10</td></tr>
-<tr><td>Arian Sanchez</td><td class="rank10">10</td></tr>
-
-<tr><td>Mohsen Sanchez</td><td class="rank9">9</td></tr>
-
-<tr><td>Tarokh Sanchez</td><td class="rank7">7</td></tr>
-<tr><td>Barad Sanchez</td><td class="rank7">7</td></tr>
-<tr><td>Mobin K</td><td class="rank7">7</td></tr>
-
-<tr><td>Abtin Sanchez</td><td class="rank4">4</td></tr>
-
-<tr><td>Amir Khodavandi</td><td class="rank3">3</td></tr>
-<tr><td>Samyar Hossini</td><td class="rank3">3</td></tr>
-<tr><td>Shariif Badri</td><td class="rank3">3</td></tr>
-<tr><td>Mesa Mehran</td><td class="rank3">3</td></tr>
-<tr><td>Nikan Sanchez</td><td class="rank3">3</td></tr>
-
-<tr><td>Gabimro Holo</td><td class="rank2">2</td></tr>
-<tr><td>Mahanzx Mahanzx</td><td class="rank2">2</td></tr>
-
-<tr><td>Lio Matin</td><td class="rank1">1</td></tr>
-<tr><td>Amoo Wolverine</td><td class="rank1">1</td></tr>
-<tr><td>Hossein Mansory</td><td class="rank1">1</td></tr>
-<tr><td>Arslan Odis</td><td class="rank1">1</td></tr>
-<tr><td>Mahziyar Rastgoo</td><td class="rank1">1</td></tr>
-<tr><td>Arashk Mozafari</td><td class="rank1">1</td></tr>
-<tr><td>Radin Bongo</td><td class="rank1">1</td></tr>
-<tr><td>Arman Org</td><td class="rank1">1</td></tr>
-<tr><td>Erfan Rs</td><td class="rank1">1</td></tr>
-
 </table>
 
 <script>
-const search = document.getElementById("search");
-search.addEventListener("keyup", function(){
-    let filter = search.value.toLowerCase();
-    let rows = document.querySelectorAll("#table tr");
+let users = JSON.parse(localStorage.getItem("users")) || [
+    {name:"Parham Sanchez",rank:10},
+    {name:"Arian Sanchez",rank:10},
+    {name:"Mohsen Sanchez",rank:9}
+];
 
-    for(let i=1;i<rows.length;i++){
-        let name = rows[i].children[0].innerText.toLowerCase();
-        rows[i].style.display = name.includes(filter) ? "" : "none";
-    }
+function save(){
+    localStorage.setItem("users",JSON.stringify(users));
+}
+
+function render(){
+    let table = document.getElementById("table");
+    table.innerHTML = `
+    <tr>
+        <th>نام</th>
+        <th>رنک</th>
+        <th>حذف</th>
+    </tr>`;
+
+    users.sort((a,b)=>b.rank-a.rank);
+
+    users.forEach((u,i)=>{
+        table.innerHTML += `
+        <tr>
+            <td>${u.name}</td>
+            <td class="rank${u.rank}">${u.rank}</td>
+            <td><button onclick="del(${i})">❌</button></td>
+        </tr>`;
+    });
+}
+
+function addUser(){
+    let name = document.getElementById("name").value;
+    let rank = document.getElementById("rank").value;
+
+    if(name=="") return;
+
+    users.push({name,rank:Number(rank)});
+    save();
+    render();
+}
+
+function del(i){
+    users.splice(i,1);
+    save();
+    render();
+}
+
+document.getElementById("search").addEventListener("keyup",function(){
+    let f = this.value.toLowerCase();
+    let rows = document.querySelectorAll("tr");
+
+    rows.forEach((r,i)=>{
+        if(i==0) return;
+        let name = r.children[0].innerText.toLowerCase();
+        r.style.display = name.includes(f) ? "" : "none";
+    });
 });
+
+render();
 </script>
 
 </body>
