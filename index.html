@@ -1,71 +1,106 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
-    <meta charset="UTF-8">
-    <title>لیست کاربران</title>
-    <style>
-        body {
-            font-family: Arial;
-            background: #0f172a;
-            color: white;
-            text-align: center;
-            padding: 20px;
-        }
+<meta charset="UTF-8">
+<title>لیست کاربران</title>
 
-        h1 {
-            color: #38bdf8;
-        }
+<style>
+body{
+    font-family: Arial;
+    background:#0b1220;
+    color:white;
+    text-align:center;
+    padding:20px;
+}
 
-        table {
-            margin: auto;
-            width: 60%;
-            border-collapse: collapse;
-            background: #1e293b;
-            border-radius: 10px;
-            overflow: hidden;
-        }
+h1{
+    color:#00d4ff;
+    margin-bottom:20px;
+}
 
-        th, td {
-            padding: 12px;
-            border-bottom: 1px solid #334155;
-        }
+input{
+    padding:10px;
+    width:60%;
+    border-radius:8px;
+    border:none;
+    margin-bottom:20px;
+}
 
-        th {
-            background: #0ea5e9;
-        }
+table{
+    margin:auto;
+    width:70%;
+    border-collapse:collapse;
+    background:#111b2e;
+    border-radius:10px;
+    overflow:hidden;
+}
 
-        tr:hover {
-            background: #334155;
-        }
-    </style>
+th,td{
+    padding:12px;
+    border-bottom:1px solid #223;
+}
+
+th{
+    background:#00aaff;
+}
+
+tr:hover{
+    background:#1b2a44;
+}
+
+/* رنگ رنک‌ها */
+.owner{color:#ff4d4d; font-weight:bold;}
+.admin{color:#ffa500; font-weight:bold;}
+.member{color:#00ff99;}
+</style>
 </head>
 
 <body>
 
-    <h1>لیست کاربران</h1>
+<h1>لیست کاربران سرور</h1>
 
-    <table>
-        <tr>
-            <th>نام کاربر</th>
-            <th>رنک</th>
-        </tr>
+<input type="text" id="search" placeholder="جستجوی نام کاربر...">
 
-        <tr>
-            <td>Ali</td>
-            <td>Owner</td>
-        </tr>
+<table id="table">
+<tr>
+<th>نام</th>
+<th>رنک</th>
+</tr>
 
-        <tr>
-            <td>Reza</td>
-            <td>Admin</td>
-        </tr>
+<tr>
+<td>Ali</td>
+<td class="owner">Owner</td>
+</tr>
 
-        <tr>
-            <td>Sara</td>
-            <td>Member</td>
-        </tr>
+<tr>
+<td>Reza</td>
+<td class="admin">Admin</td>
+</tr>
 
-    </table>
+<tr>
+<td>Sara</td>
+<td class="member">Member</td>
+</tr>
+
+<tr>
+<td>Arman</td>
+<td class="member">Member</td>
+</tr>
+
+</table>
+
+<script>
+const search = document.getElementById("search");
+search.addEventListener("keyup", function(){
+    let filter = search.value.toLowerCase();
+    let rows = document.querySelectorAll("#table tr");
+
+    for(let i=1;i<rows.length;i++){
+        let name = rows[i].children[0].innerText.toLowerCase();
+        rows[i].style.display = name.includes(filter) ? "" : "none";
+    }
+});
+</script>
 
 </body>
 </html>
