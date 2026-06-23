@@ -2,18 +2,21 @@
 <html lang="fa">
 <head>
 <meta charset="UTF-8">
-<title>RP Panel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sanchez Admin Panel</title>
 
 <style>
 body{
-    font-family: Arial;
+    font-family: Arial, sans-serif;
     background:#0b1220;
     color:white;
     text-align:center;
     padding:20px;
 }
 
-h1{color:#00d4ff;}
+h1{
+    color:#00d4ff;
+}
 
 input,button,select{
     padding:8px;
@@ -30,7 +33,7 @@ button{
 
 table{
     margin:auto;
-    width:85%;
+    width:90%;
     border-collapse:collapse;
     background:#111b2e;
     border-radius:10px;
@@ -42,23 +45,29 @@ th,td{
     border-bottom:1px solid #223;
 }
 
-th{background:#00aaff;}
+th{
+    background:#00aaff;
+}
 
-tr:hover{background:#1b2a44;}
+tr:hover{
+    background:#1b2a44;
+}
 
-/* رنک */
-.rank10{color:#ff2d2d; font-weight:bold;} /* قرمز خیلی قوی - بالاترین رنک */
-.rank9{color:#ff5e00; font-weight:bold;}  /* نارنجی تند */
-.rank8{color:#ff9f1a; font-weight:bold;}  /* نارنجی طلایی */
-.rank7{color:#ffd000; font-weight:bold;}  /* زرد طلایی */
-.rank6{color:#b6ff00; font-weight:bold;}  /* سبز-زرد */
-.rank5{color:#00ff6a; font-weight:bold;}  /* سبز روشن */
-.rank4{color:#00ffa6; font-weight:bold;}  /* سبز-فیروزه‌ای */
-.rank3{color:#00d4ff; font-weight:bold;}  /* آبی روشن */
-.rank2{color:#3b82f6; font-weight:bold;}  /* آبی متوسط */
-.rank1{color:#a1a1aa; font-weight:bold;}  /* خاکستری - پایین‌ترین */
+.rank10{color:#ff2d2d;font-weight:bold;}
+.rank9{color:#ff5e00;font-weight:bold;}
+.rank8{color:#ff9f1a;font-weight:bold;}
+.rank7{color:#ffd000;font-weight:bold;}
+.rank6{color:#b6ff00;font-weight:bold;}
+.rank5{color:#00ff6a;font-weight:bold;}
+.rank4{color:#00ffa6;font-weight:bold;}
+.rank3{color:#00d4ff;font-weight:bold;}
+.rank2{color:#3b82f6;font-weight:bold;}
+.rank1{color:#a1a1aa;font-weight:bold;}
 
-#panel{display:none;margin:15px;}
+#panel{
+    display:none;
+    margin:15px;
+}
 </style>
 </head>
 
@@ -66,16 +75,25 @@ tr:hover{background:#1b2a44;}
 
 <h1>Sanchez Admin Panel</h1>
 
-<!-- LOGIN -->
 <div id="loginBox">
     <input type="password" id="pass" placeholder="رمز ادمین">
     <button onclick="login()">ورود</button>
 </div>
 
-<!-- ADMIN PANEL -->
 <div id="panel">
 
     <input type="text" id="name" placeholder="نام کاربر">
+
+    <select id="division">
+        <option value="Farmer">Farmer</option>
+        <option value="Robber">Robber</option>
+        <option value="Chopper">Chopper</option>
+        <option value="Useless">Useless</option>
+        <option value="AimGod">AimGod</option>
+        <option value="Dispatch">Dispatch</option>
+        <option value="Guard">Guard</option>
+        <option value="Staff">Staff</option>
+    </select>
 
     <select id="rank">
         <option value="10">10</option>
@@ -91,55 +109,73 @@ tr:hover{background:#1b2a44;}
     </select>
 
     <button onclick="addUser()">➕ افزودن</button>
+
 </div>
 
-<input type="text" id="search" placeholder="جستجو...">
+<br>
+
+<input type="text" id="search" placeholder="جستجوی نام...">
+
+<br><br>
 
 <table id="table"></table>
 
 <script>
 
-const PASS = "1234"; // 🔐 رمز
+const PASS = "1234";
 let isAdmin = false;
 
 let users = JSON.parse(localStorage.getItem("users")) || [];
 
 function save(){
-    localStorage.setItem("users",JSON.stringify(users));
+    localStorage.setItem("users", JSON.stringify(users));
 }
 
 function login(){
     if(document.getElementById("pass").value === PASS){
         isAdmin = true;
-        document.getElementById("loginBox").style.display="none";
-        document.getElementById("panel").style.display="block";
+        document.getElementById("loginBox").style.display = "none";
+        document.getElementById("panel").style.display = "block";
         render();
     }else{
-        alert("رمز اشتباهه");
+        alert("رمز اشتباه است");
     }
 }
 
 function addUser(){
+
     let name = document.getElementById("name").value;
+    let division = document.getElementById("division").value;
     let rank = Number(document.getElementById("rank").value);
 
-    if(name==="") return;
+    if(name.trim() === "") return;
 
-    users.push({name,rank});
+    users.push({
+        name,
+        division,
+        rank
+    });
+
+    save();
+    render();
+
+    document.getElementById("name").value = "";
+}
+
+function deleteUser(i){
+
+    if(!isAdmin) return;
+
+    users.splice(i,1);
+
     save();
     render();
 }
 
-function deleteUser(i){
-    if(isAdmin){
-        users.splice(i,1);
-        save();
-        render();
-    }
-}
+function changeRank(i,val){
 
-function changeRank(i,newRank){
-    users[i].rank = Number(newRank);
+    users[i].rank = Number(val);
+
     save();
     render();
 }
@@ -151,48 +187,53 @@ function render(){
     let html = `
     <tr>
         <th>نام</th>
+        <th>Division</th>
         <th>رنک</th>
-        ${isAdmin ? "<th>ویرایش رنک</th><th>حذف</th>" : ""}
-    </tr>`;
+        ${isAdmin ? "<th>تغییر رنک</th><th>حذف</th>" : ""}
+    </tr>
+    `;
 
     users.forEach((u,i)=>{
+
         html += `
         <tr>
             <td>${u.name}</td>
+            <td>${u.division}</td>
             <td class="rank${u.rank}">${u.rank}</td>
 
             ${isAdmin ? `
             <td>
                 <select onchange="changeRank(${i},this.value)">
-                    <option ${u.rank==10?"selected":""} value="10">10</option>
-                    <option ${u.rank==9?"selected":""} value="9">9</option>
-                    <option ${u.rank==8?"selected":""} value="7">7</option>
-                    <option ${u.rank==7?"selected":""} value="4">4</option>
-                    <option ${u.rank==6?"selected":""} value="3">3</option>
-                    <option ${u.rank==5?"selected":""} value="2">2</option>
-                    <option ${u.rank==4?"selected":""} value="1">1</option><option ${u.rank==3?"selected":""} value="1">1</option>
-                    <option ${u.rank==2?"selected":""} value="1">1</option>
-                    <option ${u.rank==1?"selected":""} value="1">1</option>
+                    ${[10,9,8,7,6,5,4,3,2,1].map(r =>
+                        `<option value="${r}" ${u.rank==r?'selected':''}>${r}</option>`
+                    ).join("")}
                 </select>
             </td>
 
-            <td><button onclick="deleteUser(${i})">❌</button></td>
+            <td>
+                <button onclick="deleteUser(${i})">❌</button>
+            </td>
             ` : ""}
-        </tr>`;
+        </tr>
+        `;
     });
 
     document.getElementById("table").innerHTML = html;
 }
 
 document.getElementById("search").addEventListener("keyup",function(){
-    let f = this.value.toLowerCase();
-    let rows = document.querySelectorAll("tr");
 
-    rows.forEach((r,i)=>{
-        if(i==0) return;
-        let name = r.children[0]?.innerText.toLowerCase();
-        r.style.display = name?.includes(f) ? "" : "none";
-    });
+    let filter = this.value.toLowerCase();
+
+    let rows = document.querySelectorAll("#table tr");
+
+    for(let i=1;i<rows.length;i++){
+
+        let name = rows[i].children[0].innerText.toLowerCase();
+
+        rows[i].style.display =
+            name.includes(filter) ? "" : "none";
+    }
 });
 
 render();
