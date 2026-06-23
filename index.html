@@ -1,159 +1,923 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="en" class="loading">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sanchez Admin Panel</title>
-<style>
-body{font-family:Arial,sans-serif;background:#0b1220;color:white;text-align:center;padding:20px}
-h1{color:#00d4ff}
-input,button,select{padding:8px;margin:4px;border-radius:6px;border:none}
-button{cursor:pointer;background:#00aaff;color:white}
-table{margin:auto;width:90%;border-collapse:collapse;background:#111b2e;border-radius:10px;overflow:hidden}
-th,td{padding:10px;border-bottom:1px solid #223}
-th{background:#00aaff}
-tr:hover{background:#1b2a44}
-.rank10{color:#ff2d2d;font-weight:bold}
-.rank9{color:#ff5e00;font-weight:bold}
-.rank8{color:#ff9f1a;font-weight:bold}
-.rank7{color:#ffd000;font-weight:bold}
-.rank6{color:#b6ff00;font-weight:bold}
-.rank5{color:#00ff6a;font-weight:bold}
-.rank4{color:#00ffa6;font-weight:bold}
-.rank3{color:#00d4ff;font-weight:bold}
-.rank2{color:#3b82f6;font-weight:bold}
-.rank1{color:#a1a1aa;font-weight:bold}
-#panel{display:none;margin:15px}
-.tag{display:inline-block;padding:4px 8px;margin:2px;border-radius:8px;font-size:12px;font-weight:bold}
-.farmer{background:#22c55e}.robber{background:#ef4444}.chopper{background:#f59e0b}
-.useless{background:#6b7280}.aimgod{background:#8b5cf6}.dispatch{background:#06b6d4}
-.guard{background:#3b82f6}.staff{background:#ec4899}
-</style>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="description" content="Convex admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
+    <meta name="keywords" content="admin template, Convex admin template, dashboard template, flat admin template, responsive admin template, web app">
+    <meta name="author" content="PIXINVENT">
+    <title>سرور رول پلی</title>
+    <link rel="apple-touch-icon" sizes="60x60" href="/app-assets/img/ico/apple-icon-60.html">
+    <link rel="apple-touch-icon" sizes="76x76" href="/app-assets/img/ico/apple-icon-76.html">
+    <link rel="apple-touch-icon" sizes="120x120" href="/app-assets/img/ico/apple-icon-120.html">
+    <link rel="apple-touch-icon" sizes="152x152" href="/app-assets/img/ico/apple-icon-152.html">
+    <link rel="shortcut icon" type="image/x-icon" href="https://pixinvent.com/demo/convex-bootstrap-admin-dashboard-template/app-assets/img/ico/favicon.ico">
+    <link rel="shortcut icon" type="image/png" href="/app-assets/img/ico/favicon-32.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,700,900%7CMontserrat:300,400,500,600,700,800,900" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/app-assets/fonts/feather/style.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/fonts/simple-line-icons/style.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/fonts/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/perfect-scrollbar.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/prism.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/chartist.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/app.css">
+
 </head>
-<body>
-<h1>Sanchez Admin Panel</h1>
+<body data-col="2-columns" class=" 2-columns ">
+    <!-- ////////////////////////////////////////////////////////////////////////////-->
+    <div b-m85f6n9uny class="wrapper">
 
-<div id="loginBox">
-<input type="password" id="pass" placeholder="رمز ادمین">
-<button onclick="login()">ورود</button>
+
+        <div b-m85f6n9uny data-active-color="white" data-background-color="black" data-image="../app-assets/img/sidebar-bg/08.jpg" class="app-sidebar">
+
+            <div b-m85f6n9uny class="sidebar-header">
+                <div b-m85f6n9uny class="logo clearfix">
+                    <a b-m85f6n9uny href="index-2.html" class="logo-text float-right">
+                        <div b-m85f6n9uny class="logo-img"><img src="/app-assets/img/MD_Logo.jpg" alt="Convex Logo" /></div><span b-m85f6n9uny class="text align-middle">MD</span>
+                    </a><a b-m85f6n9uny id="sidebarToggle" href="javascript:;" class="nav-toggle d-none d-sm-none d-md-none d-lg-block"><i b-m85f6n9uny data-toggle="expanded" class="ft-disc toggle-icon"></i></a><a b-m85f6n9uny id="sidebarClose" href="javascript:;" class="nav-close d-block d-md-block d-lg-none d-xl-none"><i b-m85f6n9uny class="ft-circle"></i></a>
+                </div>
+            </div>
+            <div b-m85f6n9uny class="sidebar-content">
+                <div b-m85f6n9uny class="nav-container">
+                    <ul b-m85f6n9uny id="main-menu-navigation" data-menu="menu-navigation" class="navigation navigation-main">
+
+
+
+
+
+                            <li b-m85f6n9uny class=" nav-item">
+                                <a href="/Member/index"><i b-m85f6n9uny class="icon-layers"></i><span b-m85f6n9uny data-i18n="" class="menu-title">لیست پلیر ها</span></a>
+                            </li>
+                        <li b-m85f6n9uny class=" nav-item">
+                            <a href="/Account/Logout"><i b-m85f6n9uny class="icon-support"></i><span b-m85f6n9uny data-i18n="" class="menu-title">خروج از سایت</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div b-m85f6n9uny class="sidebar-background"></div>
+        </div>
+
+
+        <nav b-m85f6n9uny class="navbar navbar-expand-lg navbar-light bg-faded">
+            <div b-m85f6n9uny class="container-fluid">
+                <div b-m85f6n9uny class="navbar-header">
+                    <button b-m85f6n9uny type="button" data-toggle="collapse" class="navbar-toggle d-lg-none float-right"><span b-m85f6n9uny class="sr-only">تغییر ناوبری </span><span b-m85f6n9uny class="icon-bar"></span><span b-m85f6n9uny class="icon-bar"></span><span b-m85f6n9uny class="icon-bar"></span></button><span b-m85f6n9uny class="d-lg-none navbar-right navbar-collapse-toggle"><a b-m85f6n9uny class="open-navbar-container"></a></span><a b-m85f6n9uny id="navbar-fullscreen" href="javascript:;" class="ml-2 display-inline-block apptogglefullscreen">
+
+
+                    </a><a b-m85f6n9uny class="mr-2 display-inline-block">
+
+
+                    </a>
+                    <div b-m85f6n9uny class="dropdown mr-2 display-inline-block">
+
+                        <div b-m85f6n9uny class="apps dropdown-menu">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </nav>
+
+        <div b-m85f6n9uny class="main-panel">
+            <div b-m85f6n9uny class="main-content">
+                <div b-m85f6n9uny class="content-wrapper">
+
+                    <style>
+    /* حذف کامل لایه سیاه (Backdrop) */
+    .modal-backdrop {
+        display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+    }
+    /* اطمینان از اینکه بدنه صفحه قفل نمی‌شود */
+    body.modal-open {
+        overflow: auto !important;
+        padding-right: 0 !important;
+    }
+</style>
+
+<div class="container-fluid">
+    <section id="extended">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title-wrap bar-success">
+                            <h4 class="card-title">لیست تمامی پلیر ها</h4>
+                        </div>
+                    </div>
+                    <div class="search-box mb-3" style="width: 300px;">
+                        <div class="input-group">
+                            <input type="text"
+                                   id="userNameSearch"
+                                   class="form-control border-start-0 ps-0"
+                                   placeholder="جستجوی یوزرنیم..."
+                                   autocomplete="off" />
+                            <span class="input-group-text bg-white border-end-0">
+                                <i class="fa search-icon">🔍</i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-block">
+                            <table class="table table-responsive-md text-center">
+                                <thead>
+                                    <tr>
+                                        <th>یوزر نیم</th>
+                                        <th>Rank</th>
+                                        <th>تاریخ ثبت</th>
+                                        <th>نام ثبت کننده</th>
+                                        <th>پلاک</th>
+                                        <th>دویژن ها</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                            <tr>
+                                                <td>Ehsan Khan</td>
+                                                <td>Cheif</td>
+                                                <td>5/30/2026 7:18:53 PM</td>
+                                                <td>AWMIR</td>
+                                                <td>S-1</td>
+                                                <td>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                STAFF1
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                STAFF2
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                JR
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                SEC
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                PILOT
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                CAPTAIN
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                Dojmd
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                AIR
+                                                            </span>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>Omid Nix</td>
+                                                <td>ViceCheif</td>
+                                                <td>5/30/2026 7:27:19 PM</td>
+                                                <td>AWMIR</td>
+                                                <td>S-2</td>
+                                                <td>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                STAFF1
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                STAFF2
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                HR
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                JR
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                DIS
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                SEC
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                SPEC
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                AIR
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                PILOT
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                CAPTAIN
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                BCMD
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                THERAPIST
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                Dojmd
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                BCMD1
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                BCMD2
+                                                            </span>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>Reza Mopo</td>
+                                                <td>DeputyCheif</td>
+                                                <td>5/30/2026 7:40:55 PM</td>
+                                                <td>AWMIR</td>
+                                                <td>S-7</td>
+                                                <td>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                HHR
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                AIR
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                PILOT
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                THERAPIST
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                SEC
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                HR
+                                                            </span>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>Kensei Zh</td>
+                                                <td>DeputyCheif</td>
+                                                <td>5/30/2026 7:36:59 PM</td>
+                                                <td>AWMIR</td>
+                                                <td>S-4</td>
+                                                <td>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                CAPTAIN
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                HHR
+                                                            </span>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>AWMIR IAM</td>
+                                                <td>DeputyCheif</td>
+                                                <td>5/30/2026 7:35:48 PM</td>
+                                                <td>AWMIR</td>
+                                                <td>S-3</td>
+                                                <td>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                STAFF1
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                DIS
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                JR
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                PILOT
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                CAPTAIN
+                                                            </span>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>Ivar Vinic</td>
+                                                <td>AssistantCheif</td>
+                                                <td>5/30/2026 8:57:10 PM</td>
+                                                <td>AWMIR</td>
+                                                <td>D-12</td>
+                                                <td>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                HR
+                                                            </span>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>Mojtaba Kaviani</td>
+                                                <td>AssistantCheif</td>
+                                                <td>5/30/2026 8:56:50 PM</td>
+                                                <td>AWMIR</td>
+                                                <td>D-11</td>
+                                                <td>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                HR
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                PILOT
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                THERAPIST
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                BCMD
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                CAPTAIN
+                                                            </span>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>Arshiya Nothing</td>
+                                                <td>AssistantCheif</td>
+                                                <td>5/30/2026 7:58:09 PM</td>
+                                                <td>AWMIR</td>
+                                                <td>D-15</td>
+                                                <td>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                THERAPIST
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                HR
+                                                            </span>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>Mohmmd Alimohmmdy</td>
+                                                <td>AssistantCheif</td>
+                                                <td>5/30/2026 7:57:05 PM</td>
+                                                <td>AWMIR</td>
+                                                <td>D-14</td>
+                                                <td>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                BCMD1
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                DIS
+                                                            </span>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>Rado Dab</td>
+                                                <td>AssistantCheif</td>
+                                                <td>5/30/2026 7:56:24 PM</td>
+                                                <td>AWMIR</td>
+                                                <td>D-9</td>
+                                                <td>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                DIS
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                PILOT
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                STAFF2
+                                                            </span>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>Max Morgan</td>
+                                                <td>MedicDirector</td>
+                                                <td>6/18/2026 11:14:07 PM</td>
+                                                <td>AWMIR</td>
+                                                <td>D-13</td>
+                                                <td>
+                                                        <span class="badge rounded-pill bg-light text-muted border">فاقد دویژن</span>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>Number One</td>
+                                                <td>MedicDirector</td>
+                                                <td>5/30/2026 7:55:01 PM</td>
+                                                <td>AWMIR</td>
+                                                <td>D-7</td>
+                                                <td>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                BCMD
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                BCMD1
+                                                            </span>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>Mamad Rebel</td>
+                                                <td>MedicDirector</td>
+                                                <td>5/30/2026 7:54:06 PM</td>
+                                                <td>AWMIR</td>
+                                                <td>D-6</td>
+                                                <td>
+                                                        <span class="badge rounded-pill bg-light text-muted border">فاقد دویژن</span>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>Mehrshad Shadow</td>
+                                                <td>MedicDirector</td>
+                                                <td>5/30/2026 7:41:59 PM</td>
+                                                <td>AWMIR</td>
+                                                <td>D-4</td>
+                                                <td>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                JR
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                THERAPIST
+                                                            </span>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>Ramix Hernandez</td>
+                                                <td>MedicDirector</td>
+                                                <td>5/30/2026 7:37:51 PM</td>
+                                                <td>AWMIR</td>
+                                                <td>D-10</td>
+                                                <td>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                JR
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                DIS
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                SEC
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                THERAPIST
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                HHR
+                                                            </span>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>Mahshad Ghn</td>
+                                                <td>Resident</td>
+                                                <td>5/30/2026 7:55:39 PM</td>
+                                                <td>AWMIR</td>
+                                                <td>C-1</td>
+                                                <td>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                PILOT
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                THERAPIST
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                HR
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                AIR
+                                                            </span>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>Erfan Melo</td>
+                                                <td>Doctor</td>
+                                                <td>5/30/2026 8:02:38 PM</td>
+                                                <td>AWMIR</td>
+                                                <td>C-13</td>
+                                                <td>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                THERAPIST
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                PILOT
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                BCMD1
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                HR
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                BCMD
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                SEC
+                                                            </span>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>Asghar Red</td>
+                                                <td>Doctor</td>
+                                                <td>5/30/2026 7:57:29 PM</td>
+                                                <td>AWMIR</td>
+                                                <td>C-4</td>
+                                                <td>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                PILOT
+                                                            </span>
+                                                            <span class="badge rounded-pill bg-info text-dark px-3 py-2 me-1 shadow-sm">
+                                                                BCMD
+                                                            </span>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>Velademir Prime </td>
+                                                <td>Matron</td>
+                                                <td>6/5/2026 7:59:06 PM</td>
+                                                <td>ehsan</td>
+                                                <td>C-12</td>
+                                                <td>
+                                                        <span class="badge rounded-pill bg-light text-muted border">فاقد دویژن</span>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>Roham Ahl</td>
+                                                <td>Matron</td>
+                                                <td>5/30/2026 8:57:21 PM</td>
+                                                <td>AWMIR</td>
+                                                <td>C-9</td>
+                                                <td>
+                                                        <span class="badge rounded-pill bg-light text-muted border">فاقد دویژن</span>
+                                                </td>
+
+                                            </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- بخش صفحه‌بندی (Pagination) -->
+        <nav aria-label="Page navigation" class="mt-4">
+            <ul class="pagination justify-content-center">
+                    <li class="page-item active">
+                        <a class="page-link" href="/Member/Index?page=1">1</a>
+                    </li>
+                    <li class="page-item ">
+                        <a class="page-link" href="/Member/Index?page=2">2</a>
+                    </li>
+                    <li class="page-item ">
+                        <a class="page-link" href="/Member/Index?page=3">3</a>
+                    </li>
+                    <li class="page-item ">
+                        <a class="page-link" href="/Member/Index?page=4">4</a>
+                    </li>
+                    <li class="page-item ">
+                        <a class="page-link" href="/Member/Index?page=5">5</a>
+                    </li>
+                    <li class="page-item ">
+                        <a class="page-link" href="/Member/Index?page=6">6</a>
+                    </li>
+                    <li class="page-item ">
+                        <a class="page-link" href="/Member/Index?page=7">7</a>
+                    </li>
+                    <li class="page-item ">
+                        <a class="page-link" href="/Member/Index?page=8">8</a>
+                    </li>
+                    <li class="page-item ">
+                        <a class="page-link" href="/Member/Index?page=9">9</a>
+                    </li>
+                    <li class="page-item ">
+                        <a class="page-link" href="/Member/Index?page=10">10</a>
+                    </li>
+                    <li class="page-item ">
+                        <a class="page-link" href="/Member/Index?page=11">11</a>
+                    </li>
+                    <li class="page-item ">
+                        <a class="page-link" href="/Member/Index?page=12">12</a>
+                    </li>
+            </ul>
+        </nav>
 </div>
 
-<div id="panel">
-<input type="text" id="name" placeholder="نام کاربر">
+<!-- Modal: مدیریت کاربر -->
 
-<div>
-<label><input type="checkbox" value="Farmer" class="division"> Farmer</label>
-<label><input type="checkbox" value="Robber" class="division"> Robber</label>
-<label><input type="checkbox" value="Chopper" class="division"> Chopper</label>
-<label><input type="checkbox" value="Useless" class="division"> Useless</label>
-<label><input type="checkbox" value="AimGod" class="division"> AimGod</label>
-<label><input type="checkbox" value="Dispatch" class="division"> Dispatch</label>
-<label><input type="checkbox" value="Guard" class="division"> Guard</label>
-<label><input type="checkbox" value="Staff" class="division"> Staff</label>
-</div>
 
-<select id="rank">
-<option value="10">10</option><option value="9">9</option><option value="8">8</option>
-<option value="7">7</option><option value="6">6</option><option value="5">5</option>
-<option value="4">4</option><option value="3">3</option><option value="2">2</option>
-<option value="1">1</option>
-</select>
+<style>
+    .search-box .input-group-text {
+        border-radius: 20px 0 0 20px;
+        background-color: #f8f9fa;
+    }
 
-<button onclick="addUser()">➕ افزودن</button>
-</div>
+    .search-box .form-control {
+        border-radius: 0 20px 20px 0;
+        box-shadow: none;
+    }
 
-<br>
-<input type="text" id="search" placeholder="جستجوی نام...">
-<br><br>
+        .search-box .form-control:focus {
+            border-color: #dee2e6;
+            background-color: #fff;
+        }
 
-<table id="table"></table>
+    .table thead th {
+        border-top: none;
+        font-weight: 600;
+        color: #fff;
+    }
 
-<script>
-const PASS="1234";
-let isAdmin=false;
-let users=JSON.parse(localStorage.getItem("users"))||[];
+    .badge {
+        font-size: 0.85em;
+    }
 
-function save(){localStorage.setItem("users",JSON.stringify(users));}
+    /* استایل‌های اختصاصی Pagination */
+    .pagination .page-item .page-link {
+        color: #1dbc60; /* هماهنگ با تم موفقیت یا سبز پنل شما */
+        border: 1px solid #dee2e6;
+    }
 
-function login(){
- if(document.getElementById("pass").value===PASS){
-  isAdmin=true;
-  document.getElementById("loginBox").style.display="none";
-  document.getElementById("panel").style.display="block";
-  render();
- } else alert("رمز اشتباه است");
-}
+    .pagination .page-item.active .page-link {
+        background-color: #1dbc60;
+        border-color: #1dbc60;
+        color: #fff;
+    }
+</style>
 
-function addUser(){
- let name=document.getElementById("name").value.trim();
- if(!name) return;
+                </div>
+            </div>
 
- let divisions=[];
- document.querySelectorAll(".division:checked").forEach(x=>divisions.push(x.value));
+            <footer b-m85f6n9uny class="footer footer-static footer-light">
+                <p b-m85f6n9uny class="clearfix text-muted text-center px-2"><span b-m85f6n9uny>&copy; همه حقوق برای سرور رول پلی محفوظ است</span></p>
+            </footer>
 
- let rank=Number(document.getElementById("rank").value);
+        </div>
+    </div>
+    <!-- ////////////////////////////////////////////////////////////////////////////-->
 
- users.push({name,divisions,rank});
- save();
- render();
+    <aside b-m85f6n9uny id="notification-sidebar" class="notification-sidebar d-none d-sm-none d-md-block">
+        <a b-m85f6n9uny class="notification-sidebar-close"><i b-m85f6n9uny class="ft-x font-medium-3"></i></a>
+        <div b-m85f6n9uny class="side-nav notification-sidebar-content">
+            <div b-m85f6n9uny class="row">
+                <div b-m85f6n9uny class="col-12 mt-1">
+                    <ul b-m85f6n9uny class="nav nav-tabs">
+                        <li b-m85f6n9uny class="nav-item"><a b-m85f6n9uny id="base-tab1" data-toggle="tab" aria-controls="base-tab1" href="#activity-tab" aria-expanded="true" class="nav-link active"><strong b-m85f6n9uny>فعالیت</strong></a></li>
+                        <li b-m85f6n9uny class="nav-item"><a b-m85f6n9uny id="base-tab2" data-toggle="tab" aria-controls="base-tab2" href="#settings-tab" aria-expanded="false" class="nav-link"><strong b-m85f6n9uny>تنظیمات</strong></a></li>
+                    </ul>
+                    <div b-m85f6n9uny class="tab-content">
+                        <div b-m85f6n9uny id="activity-tab" role="tabpanel" aria-expanded="true" aria-labelledby="base-tab1" class="tab-pane active">
+                            <div b-m85f6n9uny id="activity-timeline" class="col-12 timeline-left">
+                                <h6 b-m85f6n9uny class="mt-1 mb-3 text-bold-400">فعالیت اخیر</h6>
+                                <div b-m85f6n9uny class="timeline">
+                                    <ul b-m85f6n9uny class="list-unstyled base-timeline activity-timeline ml-0">
+                                        <li b-m85f6n9uny>
+                                            <div b-m85f6n9uny class="timeline-icon bg-danger"><i b-m85f6n9uny class="ft-shopping-cart"></i></div>
+                                            <div b-m85f6n9uny class="base-timeline-info"><a b-m85f6n9uny href="#" class="text-uppercase text-danger">به روز رسانی</a><span b-m85f6n9uny class="d-block">علی رضایی تجهیزات جدیدی را برای دفتر منطقه ای خریداری کرد.</span></div><small b-m85f6n9uny class="text-muted">همین الان</small>
+                                        </li>
+                                        <li b-m85f6n9uny>
+                                            <div b-m85f6n9uny class="timeline-icon bg-primary"><i b-m85f6n9uny class="fa fa-plane"></i></div>
+                                            <div b-m85f6n9uny class="base-timeline-info"><a b-m85f6n9uny href="#" class="text-uppercase text-primary">اضافه</a><span b-m85f6n9uny class="d-block">پرواز بعدی شما برای ایالات متحده آمریکا در تاریخ 15 آگوست 2015 صورت خواهد گرفت.</span></div><small b-m85f6n9uny class="text-muted">25 ساعت پیش</small>
+                                        </li>
+                                        <li b-m85f6n9uny>
+                                            <div b-m85f6n9uny class="timeline-icon bg-dark"><i b-m85f6n9uny class="ft-mic"></i></div>
+                                            <div b-m85f6n9uny class="base-timeline-info"><a b-m85f6n9uny href="#" class="text-uppercase text-dark">اختصاص داده</a><span b-m85f6n9uny class="d-block">سارا نظری یک پست صوتی برای کنفرانس بعدی ارسال کنید</span></div><small b-m85f6n9uny class="text-muted">15 روز پیش</small>
+                                        </li>
+                                        <li b-m85f6n9uny>
+                                            <div b-m85f6n9uny class="timeline-icon bg-warning"><i b-m85f6n9uny class="ft-map-pin"></i></div>
+                                            <div b-m85f6n9uny class="base-timeline-info"><a b-m85f6n9uny href="#" class="text-uppercase text-warning">جدید</a><span b-m85f6n9uny class="d-block">علی محمدی یک فروشگاه جدید را در خیابان ولیعصر باز کنید</span></div><small b-m85f6n9uny class="text-muted">20 روز پیش</small>
+                                        </li>
+                                        <li b-m85f6n9uny>
+                                            <div b-m85f6n9uny class="timeline-icon bg-primary"><i b-m85f6n9uny class="ft-inbox"></i></div>
+                                            <div b-m85f6n9uny class="base-timeline-info"><a b-m85f6n9uny href="#" class="text-uppercase text-primary">اضافه</a><span b-m85f6n9uny class="d-block">پست صوتی برای کنفرانس</span></div><small b-m85f6n9uny class="text-muted">2 هفته پیش</small>
+                                        </li>
+                                        <li b-m85f6n9uny>
+                                            <div b-m85f6n9uny class="timeline-icon bg-danger"><i b-m85f6n9uny class="ft-mic"></i></div>
+                                            <div b-m85f6n9uny class="base-timeline-info"><a b-m85f6n9uny href="#" class="text-uppercase text-danger">به روز رسانی</a><span b-m85f6n9uny class="d-block">علی محمدی یک فروشگاه جدید را در خیابان ولیعصر باز کنید</span></div><small b-m85f6n9uny class="text-muted">1 ماه پیش</small>
+                                        </li>
+                                        <li b-m85f6n9uny>
+                                            <div b-m85f6n9uny class="timeline-icon bg-dark"><i b-m85f6n9uny class="ft-inbox"></i></div>
+                                            <div b-m85f6n9uny class="base-timeline-info"><a b-m85f6n9uny href="#" class="text-uppercase text-dark">اختصاص داده</a><span b-m85f6n9uny class="d-block">سارا نظری یک پست صوتی برای کنفرانس بعدی ارسال کنید</span></div><small b-m85f6n9uny class="text-muted">1 ماه پیش</small>
+                                        </li>
+                                        <li b-m85f6n9uny>
+                                            <div b-m85f6n9uny class="timeline-icon bg-warning"><i b-m85f6n9uny class="ft-map-pin"></i></div>
+                                            <div b-m85f6n9uny class="base-timeline-info"><a b-m85f6n9uny href="#" class="text-uppercase text-warning">جدید</a><span b-m85f6n9uny class="d-block">پروژه جدید با رضا محمودی آغاز شد. </span></div><small b-m85f6n9uny class="text-muted">2 ماه پیش</small>
+                                        </li>
 
- document.getElementById("name").value="";
- document.querySelectorAll(".division").forEach(x=>x.checked=false);
-}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div b-m85f6n9uny id="settings-tab" aria-labelledby="base-tab2" class="tab-pane">
+                            <div b-m85f6n9uny id="settings" class="col-12">
+                                <h6 b-m85f6n9uny class="mt-1 mb-3 text-bold-400">تنظیمات عمومی</h6>
+                                <ul b-m85f6n9uny class="list-unstyled">
+                                    <li b-m85f6n9uny>
+                                        <div b-m85f6n9uny class="togglebutton">
+                                            <div b-m85f6n9uny class="switch">
+                                                <span b-m85f6n9uny class="text-bold-500">اطلاعیه</span>
+                                                <div b-m85f6n9uny class="float-right">
+                                                    <div b-m85f6n9uny class="form-group">
+                                                        <div b-m85f6n9uny class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
+                                                            <input b-m85f6n9uny id="notifications1" checked="checked" type="checkbox" class="custom-control-input">
+                                                            <label b-m85f6n9uny for="notifications1" class="custom-control-label"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p b-m85f6n9uny>هنگام بررسی بله یا بدون پاسخ، از کادرهای جعبه استفاده کنید.</p>
+                                    </li>
+                                    <li b-m85f6n9uny>
+                                        <div b-m85f6n9uny class="togglebutton">
+                                            <div b-m85f6n9uny class="switch">
+                                                <span b-m85f6n9uny class="text-bold-500">نمایش فعالیت اخیر</span>
+                                                <div b-m85f6n9uny class="float-right">
+                                                    <div b-m85f6n9uny class="form-group">
+                                                        <div b-m85f6n9uny class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
+                                                            <input b-m85f6n9uny id="recent-activity1" checked="checked" type="checkbox" class="custom-control-input">
+                                                            <label b-m85f6n9uny for="recent-activity1" class="custom-control-label"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p b-m85f6n9uny>برای مشخص کردن ویژگی لازم است که کادر ورودی خود را با ورودی مرتبط کنیم.</p>
+                                    </li>
+                                    <li b-m85f6n9uny>
+                                        <div b-m85f6n9uny class="togglebutton">
+                                            <div b-m85f6n9uny class="switch">
+                                                <span b-m85f6n9uny class="text-bold-500">اطلاعیه</span>
+                                                <div b-m85f6n9uny class="float-right">
+                                                    <div b-m85f6n9uny class="form-group">
+                                                        <div b-m85f6n9uny class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
+                                                            <input b-m85f6n9uny id="notifications2" type="checkbox" class="custom-control-input">
+                                                            <label b-m85f6n9uny for="notifications2" class="custom-control-label"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p b-m85f6n9uny>هنگام بررسی بله یا بدون پاسخ، از کادرهای جعبه استفاده کنید.</p>
+                                    </li>
+                                    <li b-m85f6n9uny>
+                                        <div b-m85f6n9uny class="togglebutton">
+                                            <div b-m85f6n9uny class="switch">
+                                                <span b-m85f6n9uny class="text-bold-500">نمایش فعالیت اخیر</span>
+                                                <div b-m85f6n9uny class="float-right">
+                                                    <div b-m85f6n9uny class="form-group">
+                                                        <div b-m85f6n9uny class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
+                                                            <input b-m85f6n9uny id="recent-activity2" type="checkbox" class="custom-control-input">
+                                                            <label b-m85f6n9uny for="recent-activity2" class="custom-control-label"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p b-m85f6n9uny>برای مشخص کردن ویژگی لازم است که کادر ورودی خود را با ورودی مرتبط کنیم.</p>
+                                    </li>
+                                    <li b-m85f6n9uny>
+                                        <div b-m85f6n9uny class="togglebutton">
+                                            <div b-m85f6n9uny class="switch">
+                                                <span b-m85f6n9uny class="text-bold-500">ایمیل های خود را نمایش دهید</span>
+                                                <div b-m85f6n9uny class="float-right">
+                                                    <div b-m85f6n9uny class="form-group">
+                                                        <div b-m85f6n9uny class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
+                                                            <input b-m85f6n9uny id="show-emails" type="checkbox" class="custom-control-input">
+                                                            <label b-m85f6n9uny for="show-emails" class="custom-control-label"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p b-m85f6n9uny>هنگام بررسی بله یا بدون پاسخ، از کادرهای جعبه استفاده کنید.</p>
+                                    </li>
+                                    <li b-m85f6n9uny>
+                                        <div b-m85f6n9uny class="togglebutton">
+                                            <div b-m85f6n9uny class="switch">
+                                                <span b-m85f6n9uny class="text-bold-500">نمایش آمار کار</span>
+                                                <div b-m85f6n9uny class="float-right">
+                                                    <div b-m85f6n9uny class="form-group">
+                                                        <div b-m85f6n9uny class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
+                                                            <input b-m85f6n9uny id="show-stats" checked="checked" type="checkbox" class="custom-control-input">
+                                                            <label b-m85f6n9uny for="show-stats" class="custom-control-label"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p b-m85f6n9uny>برای مشخص کردن ویژگی لازم است که کادر ورودی خود را با ورودی مرتبط کنیم.</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aside>
 
-function deleteUser(i){
- if(!isAdmin) return;
- users.splice(i,1);
- save();
- render();
-}
+    <!-- BEGIN VENDOR JS-->
+    <script src="/app-assets/vendors/js/core/jquery-3.3.1.min.js"></script>
 
-function changeRank(i,val){
- users[i].rank=Number(val);
- save();
- render();
-}
 
-function render(){
- users.sort((a,b)=>b.rank-a.rank);
+    <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.esm.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.esm.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="/app-assets/vendors/js/core/popper.min.js"></script>
+    <script src="/app-assets/vendors/js/core/bootstrap.min.js"></script>
+    <script src="/app-assets/vendors/js/perfect-scrollbar.jquery.min.js"></script>
+    <script src="/app-assets/vendors/js/prism.min.js"></script>
+    <script src="/app-assets/vendors/js/jquery.matchHeight-min.js"></script>
+    <script src="/app-assets/vendors/js/screenfull.min.js"></script>
+    <script src="/app-assets/vendors/js/pace/pace.min.js"></script>
+    <!-- BEGIN VENDOR JS-->
+    <!-- BEGIN PAGE VENDOR JS-->
+    <!-- END PAGE VENDOR JS-->
+    <!-- BEGIN CONVEX JS-->
+    <script src="/app-assets/js/app-sidebar.js"></script>
+    <script src="/app-assets/js/notification-sidebar.js"></script>
+    <script src="/app-assets/js/customizer.js"></script>
+    <!-- END CONVEX JS-->
+    <!-- BEGIN PAGE LEVEL JS-->
+    <script src="/app-assets/js/dashboard-ecommerce.js"></script>
+    <!-- END PAGE LEVEL JS-->
+    
+    <script>
+        $(document).ready(function () {
+            let currentUserId = null;
+            let currentUserName = null;
 
- let html=`<tr>
- <th>نام</th>
- <th>Division</th>
- <th>رنک</th>
- ${isAdmin?"<th>تغییر رنک</th><th>حذف</th>":""}
- </tr>`;
+            // باز کردن مودال مدیریت
+            $(document).on('click', '.btn-manage-user', function () {
+                currentUserId = $(this).data('id');
+                currentUserName = $(this).data('username');
 
- users.forEach((u,i)=>{
-  let divs=(u.divisions||[]).map(d=>`<span class="tag ${d.toLowerCase()}">${d}</span>`).join("");
+                $('#modalUserName').text(currentUserName);
+                $('#linkChangeRank').attr('href', '/Player/ChangeRank/' + currentUserId);
+                $('#linkAddWarning').attr('href', '/Warning/Create/' + currentUserId);
+                $('#linkChangeDivision').attr('href', '/Player/ChangeDevision/' + currentUserId);
 
-  html+=`<tr>
-   <td>${u.name}</td>
-   <td>${divs}</td>
-   <td class="rank${u.rank}">${u.rank}</td>
-   ${isAdmin?`
-   <td>
-   <select onchange="changeRank(${i},this.value)">
-   ${[10,9,8,7,6,5,4,3,2,1].map(r=>`<option value="${r}" ${u.rank==r?'selected':''}>${r}</option>`).join('')}
-   </select>
-   </td>
-   <td><button onclick="deleteUser(${i})">❌</button></td>`:""}
-  </tr>`;
- });
+                $('#userActionModal').modal('show');
+            });
 
- document.getElementById("table").innerHTML=html;
-}
+            // باز کردن مودال اخراج
+            $('#btnOpenFireModal').on('click', function () {
+                $('#fireUserId').val(currentUserId);
+                $('#fireUserName').text(currentUserName);
 
-document.getElementById("search").addEventListener("keyup",function(){
- let filter=this.value.toLowerCase();
- let rows=document.querySelectorAll("#table tr");
- for(let i=1;i<rows.length;i++){
-  let name=rows[i].children[0].innerText.toLowerCase();
-  rows[i].style.display=name.includes(filter)?"":"none";
- }
-});
+                // بستن مودال اول و باز کردن مودال دوم با رعایت ترتیب انیمیشن
+                $('#userActionModal').modal('hide');
 
-render();
-</script>
+                // صبر کوتاه برای جلوگیری از تداخل Backdrop
+                setTimeout(function() {
+                    $('#fireUserModal').modal('show');
+                }, 400);
+            });
+
+            // پاکسازی نهایی برای اطمینان از حذف هرگونه لایه سیاه باقی‌مانده
+            $(document).on('hidden.bs.modal', '.modal', function () {
+                if ($('.modal.show').length === 0) {
+                    $('.modal-backdrop').remove();
+                    $('body').removeClass('modal-open');
+                }
+            });
+        });
+    </script>
+
+    <script>
+        let timeout = null;
+        const searchInput = document.getElementById('userNameSearch');
+
+        searchInput.addEventListener('input', function () {
+            clearTimeout(timeout);
+
+            timeout = setTimeout(function () {
+                const username = searchInput.value.trim();
+                const baseUrl = '/Member/Index';
+
+                // هنگام سرچ، همیشه باید به صفحه ۱ ارجاع داده شود (page=1)
+                if (username === '') {
+                    window.location.href = `${baseUrl}?page=1`;
+                } else {
+                    window.location.href = `${baseUrl}?username=${encodeURIComponent(username)}&page=1`;
+                }
+            }, 500);
+        });
+
+        window.onload = function () {
+            const val = searchInput.value;
+            searchInput.focus();
+            searchInput.setSelectionRange(val.length, val.length);
+        };
+    </script>
+
 </body>
+
 </html>
+
+
