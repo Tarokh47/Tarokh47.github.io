@@ -1,3 +1,4 @@
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <!DOCTYPE html>
 <html lang="fa">
 <head>
@@ -71,9 +72,32 @@ tr:hover{background:#1b2a44}
 <script>
 const PASS="1234";
 let isAdmin=false;
-let users=JSON.parse(localStorage.getItem("users"))||[];
+let users=[];
 
-function save(){localStorage.setItem("users",JSON.stringify(users));}
+const SUPABASE_URL="اhttps://wsoywjhueeijndhumagl.supabase.co/rest/v1/";
+const SUPABASE_KEY="sb_publishable_vwls_Vh8InTQlLtEsXXD8g_60ZxY_Bc";
+
+const supabase=window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+
+async function loadUsers(){
+
+const {data,error}=await supabase
+.from("users")
+.select("*");
+
+if(error){
+console.log(error);
+return;
+}
+
+users=data||[];
+
+render();
+
+}
 
 function login(){
  if(document.getElementById("pass").value===PASS){
@@ -86,6 +110,7 @@ function login(){
 
 function addUser(){
  let name=document.getElementById("name").value.trim();
+}
  if(!name) return;
 
  let divisions=[];
@@ -93,23 +118,33 @@ function addUser(){
 
  let rank=Number(document.getElementById("rank").value);
 
- users.push({name,divisions,rank});
- save();
- render();
+ await supabase
+.from("users")
+.insert([{
+name,
+divisions,
+rank
+}]);
+
+loadUsers();
 
  document.getElementById("name").value="";
  document.querySelectorAll(".division").forEach(x=>x.checked=false);
 }
 
-function deleteUser(i){
+async function deleteUser(i){
  if(!isAdmin) return;
  users.splice(i,1);
  save();
  render();
 }
 
-function changeRank(i,val){
- users[i].rank=Number(val);
+await supabase
+.from("users")
+.delete()
+.eq("id",users[i].id);
+
+loadUsers();
  save();
  render();
 }
