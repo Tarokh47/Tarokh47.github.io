@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sanchez Admin Panel</title>
+<style>
+body{font-family:Arial,sans-serif;background:#0b1220;color:white;text-align:center;padding:20px}
+h1{color:#00d4ff}
+input,button,select{padding:8px;margin:4px;border-radius:6px;border:none}
+button{cursor:pointer;background:#00aaff;color:white}
+table{margin:auto;width:90%;border-collapse:collapse;background:#111b2e;border-radius:10px;overflow:hidden}
+th,td{padding:10px;border-bottom:1px solid #223}
+th{background:#00aaff}
+tr:hover{background:#1b2a44}
+.rank10{color:#ff2d2d;font-weight:bold}
+.rank9{color:#ff5e00;font-weight:bold}
+.rank8{color:#ff9f1a;font-weight:bold}
+.rank7{color:#ffd000;font-weight:bold}
+.rank6{color:#b6ff00;font-weight:bold}
+.rank5{color:#00ff6a;font-weight:bold}
+.rank4{color:#00ffa6;font-weight:bold}
+.rank3{color:#00d4ff;font-weight:bold}
+.rank2{color:#3b82f6;font-weight:bold}
+.rank1{color:#a1a1aa;font-weight:bold}
+#panel{display:none;margin:15px}
+.tag{display:inline-block;padding:4px 8px;margin:2px;border-radius:8px;font-size:12px;font-weight:bold}
+.farmer{background:#22c55e}.robber{background:#ef4444}.chopper{background:#f59e0b}
+.useless{background:#6b7280}.aimgod{background:#8b5cf6}.dispatch{background:#06b6d4}
+.guard{background:#3b82f6}.staff{background:#ec4899}
+</style>
+</head>
+<body>
+<h1>Sanchez Admin Panel</h1>
+
+<div id="loginBox">
+<input type="password" id="pass" placeholder="رمز ادمین">
+<button onclick="login()">ورود</button>
+</div>
+
+<div id="panel">
+<input type="text" id="name" placeholder="نام کاربر">
+
+<div>
+<label><input type="checkbox" value="Farmer" class="division"> Farmer</label>
+<label><input type="checkbox" value="Robber" class="division"> Robber</label>
+<label><input type="checkbox" value="Chopper" class="division"> Chopper</label>
+<label><input type="checkbox" value="Useless" class="division"> Useless</label>
+<label><input type="checkbox" value="AimGod" class="division"> AimGod</label>
+<label><input type="checkbox" value="Dispatch" class="division"> Dispatch</label>
+<label><input type="checkbox" value="Guard" class="division"> Guard</label>
+<label><input type="checkbox" value="Staff" class="division"> Staff</label>
+</div>
+
+<select id="rank">
+<option value="10">10</option><option value="9">9</option><option value="8">8</option>
+<option value="7">7</option><option value="6">6</option><option value="5">5</option>
+<option value="4">4</option><option value="3">3</option><option value="2">2</option>
+<option value="1">1</option>
+</select>
+
+<button onclick="addUser()">➕ افزودن</button>
+</div>
+
+<br>
+<input type="text" id="search" placeholder="جستجوی نام...">
+<br><br>
+
+<table id="table"></table>
+
+<script>
+const PASS="1234";
+let isAdmin=false;
+let users=JSON.parse(localStorage.getItem("users"))||[];
+
+function save(){localStorage.setItem("users",JSON.stringify(users));}
+
+function login(){
+ if(document.getElementById("pass").value===PASS){
+  isAdmin=true;
+  document.getElementById("loginBox").style.display="none";
+  document.getElementById("panel").style.display="block";
+  render();
+ } else alert("رمز اشتباه است");
+}
+
+function addUser(){
+ let name=document.getElementById("name").value.trim();
+ if(!name) return;
+
+ let divisions=[];
+ document.querySelectorAll(".division:checked").forEach(x=>divisions.push(x.value));
+
+ let rank=Number(document.getElementById("rank").value);
+
+ users.push({name,divisions,rank});
+ save();
+ render();
+
+ document.getElementById("name").value="";
+ document.querySelectorAll(".division").forEach(x=>x.checked=false);
+}
+
+function deleteUser(i){
+ if(!isAdmin) return;
+ users.splice(i,1);
+ save();
+ render();
+}
+
+function changeRank(i,val){
+ users[i].rank=Number(val);
+ save();
+ render();
+}
+
+function render(){
+ users.sort((a,b)=>b.rank-a.rank);
+
+ let html=`<tr>
+ <th>نام</th>
+ <th>Division</th>
+ <th>رنک</th>
+ ${isAdmin?"<th>تغییر رنک</th><th>حذف</th>":""}
+ </tr>`;
+
+ users.forEach((u,i)=>{
+  let divs=(u.divisions||[]).map(d=>`<span class="tag ${d.toLowerCase()}">${d}</span>`).join("");
+
+  html+=`<tr>
+   <td>${u.name}</td>
+   <td>${divs}</td>
+   <td class="rank${u.rank}">${u.rank}</td>
+   ${isAdmin?`
+   <td>
+   <select onchange="changeRank(${i},this.value)">
+   ${[10,9,8,7,6,5,4,3,2,1].map(r=>`<option value="${r}" ${u.rank==r?'selected':''}>${r}</option>`).join('')}
+   </select>
+   </td>
+   <td><button onclick="deleteUser(${i})">❌</button></td>`:""}
+  </tr>`;
+ });
+
+ document.getElementById("table").innerHTML=html;
+}
+
+document.getElementById("search").addEventListener("keyup",function(){
+ let filter=this.value.toLowerCase();
+ let rows=document.querySelectorAll("#table tr");
+ for(let i=1;i<rows.length;i++){
+  let name=rows[i].children[0].innerText.toLowerCase();
+  rows[i].style.display=name.includes(filter)?"":"none";
+ }
+});
+
+render();
+</script>
+</body>
+</html>
