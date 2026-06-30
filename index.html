@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sanchez Admin Panel</title>
 <style>
-/* استایل‌های قبلی به همین شکل */
 body{font-family:Arial,sans-serif;background:#0b1220;color:white;text-align:center;padding:20px}
 h1{color:#00d4ff}
 input,button,select{padding:8px;margin:4px;border-radius:6px;border:none}
@@ -74,15 +73,18 @@ tr:hover{background:#1b2a44}
 
 <script>
 // ================================================================
-// 🔑 تنظیمات فایل JSON در مخزن خودتان
+// 🔑 تنظیمات - فقط این دو خط رو عوض کنید
 // ================================================================
-const JSON_URL = "https://raw.githubusercontent.com/Tarokh47/Tarokh47.github.io/refs/heads/main/data.json";
-const GITHUB_TOKEN = "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"; // <-- توکن کپی شده را اینجا قرار دهید
+const GITHUB_TOKEN = "ghp_YOUR_NEW_TOKEN"; // <-- توکن جدید با دسترسی repo
 // ================================================================
 
 const PASS = "1234";
 let isAdmin = false;
 let users = [];
+
+// آدرس‌ها (دیگه نیازی به تغییر ندارید)
+const RAW_URL = "https://raw.githubusercontent.com/Tarokh47/Tarokh47.github.io/refs/heads/main/data.json";
+const API_URL = "https://api.github.com/repos/Tarokh47/Tarokh47.github.io/contents/data.json";
 
 // وضعیت اتصال
 function updateStatus(connected, msg = '') {
@@ -96,11 +98,11 @@ function updateStatus(connected, msg = '') {
     }
 }
 
-// بارگذاری داده‌ها از فایل JSON
+// بارگذاری داده‌ها
 async function loadUsers() {
     try {
         document.getElementById('loadingMsg').style.display = 'block';
-        const response = await fetch(JSON_URL);
+        const response = await fetch(RAW_URL);
         
         if (!response.ok) throw new Error('خطا در دریافت داده');
         
@@ -110,7 +112,7 @@ async function loadUsers() {
         render();
     } catch (error) {
         console.error('خطا:', error);
-        updateStatus(false, 'فایل JSON پیدا نشد');
+        updateStatus(false, 'خطا در بارگذاری');
         users = [];
         render();
     } finally {
@@ -118,68 +120,56 @@ async function loadUsers() {
     }
 }
 
-// ================================================================
-// 🔧 تابع ذخیره‌سازی اصلاح شده
-// ================================================================
+// ذخیره داده‌ها
 async function saveUsers() {
     try {
-        // آدرس درست GitHub API
-        const repoUrl = "https://api.github.com/repos/Tarokh47/Tarokh47.github.io/contents/data.json";
-        
-        console.log('📤 در حال ذخیره داده‌ها...');
-        
-        // 1. اطلاعات فعلی فایل رو بگیریم تا SHA رو داشته باشیم
-        const shaResponse = await fetch(repoUrl, {
+        // 1. دریافت SHA
+        const shaRes = await fetch(API_URL, {
             headers: {
-                'Authorization': `Bearer ${GITHUB_TOKEN}`,
-                'Accept': 'application/vnd.github+json'
+                'Authorization': `token ${GITHUB_TOKEN}`,
+                'Accept': 'application/vnd.github.v3+json'
             }
         });
         
-        if (!shaResponse.ok) {
-            const errorData = await shaResponse.json();
-            console.error('❌ خطا در دریافت SHA:', errorData);
-            throw new Error('خطا در دریافت اطلاعات فایل: ' + (errorData.message || ''));
+        if (!shaRes.ok) {
+            const err = await shaRes.json();
+            throw new Error(err.message || 'خطا در دریافت SHA');
         }
         
-        const fileInfo = await shaResponse.json();
+        const fileInfo = await shaRes.json();
         const sha = fileInfo.sha;
-        console.log('✅ SHA دریافت شد:', sha);
         
-        // 2. محتوای جدید رو به Base64 تبدیل کنیم (با پشتیبانی از فارسی)
+        // 2. تبدیل به Base64
         const content = JSON.stringify({ users }, null, 2);
-        const encodedContent = btoa(unescape(encodeURIComponent(content)));
+        const encoded = btoa(unescape(encodeURIComponent(content)));
         
-        // 3. فایل رو آپدیت کنیم
-        const updateResponse = await fetch(repoUrl, {
+        // 3. آپدیت فایل
+        const updateRes = await fetch(API_URL, {
             method: 'PUT',
             headers: {
-                'Authorization': `Bearer ${GITHUB_TOKEN}`,
-                'Accept': 'application/vnd.github+json',
+                'Authorization': `token ${GITHUB_TOKEN}`,
+                'Accept': 'application/vnd.github.v3+json',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                message: 'آپدیت داده‌های کاربران',
-                content: encodedContent,
+                message: `آپدیت لیست کاربران`,
+                content: encoded,
                 sha: sha
             })
         });
         
-        if (!updateResponse.ok) {
-            const errorData = await updateResponse.json();
-            console.error('❌ خطا در ذخیره:', errorData);
-            throw new Error('خطا در ذخیره: ' + (errorData.message || ''));
+        if (!updateRes.ok) {
+            const err = await updateRes.json();
+            throw new Error(err.message || 'خطا در ذخیره');
         }
         
-        console.log('✅ داده‌ها با موفقیت ذخیره شدند!');
         return true;
     } catch (error) {
-        console.error('❌ خطا در ذخیره:', error);
+        console.error('❌ خطا:', error);
         alert('❌ خطا در ذخیره! ' + error.message);
         return false;
     }
 }
-// ================================================================
 
 // ورود ادمین
 function login() {
@@ -310,11 +300,6 @@ document.getElementById("pass").addEventListener("keyup", e => e.key === "Enter"
 
 // بارگذاری اولیه
 loadUsers();
-
-// آپدیت خودکار هر 15 ثانیه
-setInterval(() => {
-    if (isAdmin) loadUsers();
-}, 15000);
 
 console.log('✅ پنل مدیریت با فایل JSON در مخزن آماده است!');
 </script>
