@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sanchez Admin Panel</title>
 <style>
+/* استایل‌های قبلی */
 body{font-family:Arial,sans-serif;background:#0b1220;color:white;text-align:center;padding:20px}
 h1{color:#00d4ff}
 input,button,select{padding:8px;margin:4px;border-radius:6px;border:none}
@@ -28,11 +29,15 @@ tr:hover{background:#1b2a44}
 .farmer{background:#22c55e}.robber{background:#ef4444}.chopper{background:#f59e0b}
 .useless{background:#6b7280}.aimgod{background:#8b5cf6}.dispatch{background:#06b6d4}
 .guard{background:#3b82f6}.staff{background:#ec4899}
-.loading{color:#00d4ff;font-size:18px;margin:20px}
-.error-msg{color:#ef4444;background:#1a1a2e;padding:10px;border-radius:8px;margin:10px}
+#status{position:fixed;top:10px;right:10px;padding:8px 15px;border-radius:20px;font-size:13px;z-index:999}
+.status-online{background:#22c55e;color:white}
+.status-offline{background:#ef4444;color:white}
 </style>
 </head>
 <body>
+
+<div id="status" class="status-offline">⏳ در حال اتصال...</div>
+
 <h1>Sanchez Admin Panel</h1>
 
 <div id="loginBox">
@@ -42,7 +47,6 @@ tr:hover{background:#1b2a44}
 
 <div id="panel">
 <input type="text" id="name" placeholder="نام کاربر">
-
 <div style="margin:10px 0">
 <label><input type="checkbox" value="Farmer" class="division"> Farmer</label>
 <label><input type="checkbox" value="Robber" class="division"> Robber</label>
@@ -53,242 +57,148 @@ tr:hover{background:#1b2a44}
 <label><input type="checkbox" value="Guard" class="division"> Guard</label>
 <label><input type="checkbox" value="Staff" class="division"> Staff</label>
 </div>
-
 <select id="rank">
 <option value="10">10</option><option value="9">9</option><option value="8">8</option>
 <option value="7">7</option><option value="6">6</option><option value="5">5</option>
 <option value="4">4</option><option value="3">3</option><option value="2">2</option>
 <option value="1">1</option>
 </select>
-
 <button onclick="addUser()">➕ افزودن</button>
 </div>
 
 <br>
 <input type="text" id="search" placeholder="جستجوی نام...">
 <br><br>
-
-<div id="loadingMsg" class="loading">در حال بارگذاری...</div>
-<div id="errorMsg" class="error-msg" style="display:none"></div>
-
 <table id="table"></table>
-
-<!-- ===== کتابخانه Supabase ===== -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
 // ======================================================
-// 🔑 **اینجا اطلاعات Supabase رو وارد کنید:**
+// 🔑 اینجا اطلاعات JSONBin رو وارد کنید:
 // ======================================================
-const SUPABASE_URL = "https://wsoywjhueeijndhumagl.supabase.co/rest/v1/";    // <-- لینک پروژه خود را اینجا وارد کنید
-const SUPABASE_ANON_KEY = "sb_publishable_vwls_Vh8InTQlLtEsXXD8g_60ZxY_Bc";                 // <-- کلید عمومی (anon key) را اینجا وارد کنید
+const JSONBIN_URL = "https://api.jsonbin.io/v3/b/YOUR_BIN_ID";  // <-- Bin ID خود را وارد کنید
+const JSONBIN_KEY = "$2a$10$YOUR_MASTER_KEY";                  // <-- Master Key خود را وارد کنید
 // ======================================================
 
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-// ===== تنظیمات ادمین =====
-const PASS = "1234"; // رمز ادمین (می‌توانید تغییر دهید)
+const PASS = "1234";
 let isAdmin = false;
 let users = [];
 
-// ==========================================
-// توابع اصلی
-// ==========================================
-
-// نمایش خطا
-function showError(msg) {
-  const el = document.getElementById("errorMsg");
-  el.textContent = msg;
-  el.style.display = "block";
-  setTimeout(() => el.style.display = "none", 5000);
-}
-
-// بارگذاری کاربران از Supabase
-async function loadUsers() {
-  try {
-    document.getElementById("loadingMsg").style.display = "block";
-    document.getElementById("table").innerHTML = "";
-    
-    const { data, error } = await supabase
-      .from('users')
-      .select('*')
-      .order('rank', { ascending: false });
-    
-    if (error) throw error;
-    
-    users = data || [];
-    render();
-  } catch (err) {
-    console.error('خطا در بارگذاری:', err);
-    showError('خطا در ارتباط با دیتابیس: ' + err.message);
-  } finally {
-    document.getElementById("loadingMsg").style.display = "none";
+// وضعیت اتصال
+function updateStatus(connected) {
+  const status = document.getElementById('status');
+  if (connected) {
+    status.className = 'status-online';
+    status.textContent = '✅ متصل';
+  } else {
+    status.className = 'status-offline';
+    status.textContent = '🔴 قطع';
   }
 }
 
-// ذخیره‌سازی (دیگر نیازی نیست ولی برای سازگاری نگه داشتم)
-function save() {
-  // این تابع دیگر استفاده نمی‌شود
+// بارگذاری داده‌ها
+async function loadUsers() {
+  try {
+    const response = await fetch(JSONBIN_URL, {
+      headers: { 'X-Master-Key': JSONBIN_KEY }
+    });
+    const data = await response.json();
+    users = data.record.users || [];
+    updateStatus(true);
+    render();
+  } catch (error) {
+    console.error('خطا:', error);
+    updateStatus(false);
+    users = [];
+    render();
+  }
 }
 
-// ورود ادمین
-async function login() {
-  const inputPass = document.getElementById("pass").value;
-  if (inputPass === PASS) {
+// ذخیره داده‌ها
+async function saveUsers() {
+  try {
+    await fetch(JSONBIN_URL, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Master-Key': JSONBIN_KEY
+      },
+      body: JSON.stringify({ users })
+    });
+    return true;
+  } catch (error) {
+    console.error('خطا در ذخیره:', error);
+    return false;
+  }
+}
+
+function login() {
+  if (document.getElementById("pass").value === PASS) {
     isAdmin = true;
     document.getElementById("loginBox").style.display = "none";
     document.getElementById("panel").style.display = "block";
-    await loadUsers();
-    render();
+    loadUsers();
   } else {
     alert("رمز اشتباه است");
   }
 }
 
-// اضافه کردن کاربر جدید
 async function addUser() {
-  if (!isAdmin) {
-    alert("لطفاً ابتدا وارد شوید");
-    return;
-  }
-
   const name = document.getElementById("name").value.trim();
-  if (!name) {
-    alert("لطفاً نام کاربر را وارد کنید");
-    return;
-  }
-
-  // چک کردن تکراری نبودن نام
-  const { data: existing } = await supabase
-    .from('users')
-    .select('name')
-    .eq('name', name);
+  if (!name) { alert("لطفاً نام را وارد کنید"); return; }
   
-  if (existing && existing.length > 0) {
+  if (users.some(u => u.name === name)) {
     alert("این کاربر قبلاً وجود دارد!");
     return;
   }
 
   const divisions = [];
   document.querySelectorAll(".division:checked").forEach(x => divisions.push(x.value));
-  
-  if (divisions.length === 0) {
-    alert("لطفاً حداقل یک Division انتخاب کنید");
-    return;
-  }
+  if (divisions.length === 0) { alert("حداقل یک Division انتخاب کنید"); return; }
 
   const rank = Number(document.getElementById("rank").value);
-
-  try {
-    const { data, error } = await supabase
-      .from('users')
-      .insert([{ 
-        name, 
-        divisions, 
-        rank 
-      }])
-      .select();
-
-    if (error) throw error;
-
-    if (data && data.length > 0) {
-      users.push(data[0]);
-      render();
-      
-      // پاک کردن فرم
-      document.getElementById("name").value = "";
-      document.querySelectorAll(".division").forEach(x => x.checked = false);
-    }
-  } catch (err) {
-    console.error('خطا در افزودن:', err);
-    showError('خطا در افزودن کاربر: ' + err.message);
-  }
-}
-
-// حذف کاربر
-async function deleteUser(index) {
-  if (!isAdmin) return;
   
-  if (!confirm(`آیا از حذف "${users[index].name}" مطمئن هستید؟`)) return;
-
-  try {
-    const { error } = await supabase
-      .from('users')
-      .delete()
-      .eq('id', users[index].id);
-
-    if (error) throw error;
-
-    users.splice(index, 1);
+  users.push({ name, divisions, rank });
+  const saved = await saveUsers();
+  if (saved) {
     render();
-  } catch (err) {
-    console.error('خطا در حذف:', err);
-    showError('خطا در حذف کاربر: ' + err.message);
+    document.getElementById("name").value = "";
+    document.querySelectorAll(".division").forEach(x => x.checked = false);
+  } else {
+    alert("خطا در ذخیره! دوباره تلاش کنید.");
   }
 }
 
-// تغییر رنک
-async function changeRank(index, value) {
+async function deleteUser(i) {
   if (!isAdmin) return;
-
-  const newRank = Number(value);
-  
-  try {
-    const { error } = await supabase
-      .from('users')
-      .update({ rank: newRank })
-      .eq('id', users[index].id);
-
-    if (error) throw error;
-
-    users[index].rank = newRank;
-    render();
-  } catch (err) {
-    console.error('خطا در تغییر رنک:', err);
-    showError('خطا در تغییر رنک: ' + err.message);
-  }
+  if (!confirm(`حذف "${users[i].name}"؟`)) return;
+  users.splice(i, 1);
+  await saveUsers();
+  render();
 }
 
-// رندر کردن جدول
+async function changeRank(i, val) {
+  users[i].rank = Number(val);
+  await saveUsers();
+  render();
+}
+
 function render() {
-  // مرتب‌سازی بر اساس رنک (نزولی)
   users.sort((a, b) => b.rank - a.rank);
-
-  let html = `<tr>
-    <th>نام</th>
-    <th>Division</th>
-    <th>رنک</th>
-    ${isAdmin ? "<th>تغییر رنک</th><th>حذف</th>" : ""}
-  </tr>`;
-
+  let html = `<tr><th>نام</th><th>Division</th><th>رنک</th>${isAdmin ? "<th>تغییر رنک</th><th>حذف</th>" : ""}</tr>`;
+  
   users.forEach((u, i) => {
-    const divs = (u.divisions || []).map(d => 
-      `<span class="tag ${d.toLowerCase()}">${d}</span>`
-    ).join("");
-
-    html += `<tr>
-      <td>${u.name}</td>
-      <td>${divs}</td>
-      <td class="rank${u.rank}">${u.rank}</td>
-      ${isAdmin ? `
-      <td>
-        <select onchange="changeRank(${i}, this.value)">
-          ${[10,9,8,7,6,5,4,3,2,1].map(r => 
-            `<option value="${r}" ${u.rank == r ? 'selected' : ''}>${r}</option>`
-          ).join('')}
-        </select>
-      </td>
-      <td><button onclick="deleteUser(${i})">❌</button></td>
-      ` : ""}
-    </tr>`;
+    const divs = (u.divisions || []).map(d => `<span class="tag ${d.toLowerCase()}">${d}</span>`).join("");
+    html += `<tr><td>${u.name}</td><td>${divs}</td><td class="rank${u.rank}">${u.rank}</td>`;
+    if (isAdmin) {
+      html += `<td><select onchange="changeRank(${i}, this.value)">
+        ${[10,9,8,7,6,5,4,3,2,1].map(r => `<option value="${r}" ${u.rank==r?'selected':''}>${r}</option>`).join('')}
+      </select></td><td><button onclick="deleteUser(${i})" style="background:#ef4444">❌</button></td>`;
+    }
+    html += `</tr>`;
   });
-
+  
   document.getElementById("table").innerHTML = html;
 }
-
-// ==========================================
-// رویدادها
-// ==========================================
 
 // جستجو
 document.getElementById("search").addEventListener("keyup", function() {
@@ -300,21 +210,12 @@ document.getElementById("search").addEventListener("keyup", function() {
   }
 });
 
-// Enter در فیلد نام
-document.getElementById("name").addEventListener("keyup", function(e) {
-  if (e.key === "Enter") addUser();
-});
+// Enter
+document.getElementById("name").addEventListener("keyup", e => e.key === "Enter" && addUser());
+document.getElementById("pass").addEventListener("keyup", e => e.key === "Enter" && login());
 
-// Enter در فیلد رمز
-document.getElementById("pass").addEventListener("keyup", function(e) {
-  if (e.key === "Enter") login();
-});
-
-// بارگذاری اولیه
+// بارگذاری
 loadUsers();
-
-console.log("✅ پنل مدیریت با Supabase آماده است!");
-console.log("🔑 Supabase URL:", SUPABASE_URL);
 </script>
 </body>
 </html>
