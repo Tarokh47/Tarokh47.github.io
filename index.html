@@ -98,8 +98,8 @@ function updateStatus(connected) {
 // بارگذاری داده‌ها
 async function loadUsers() {
   try {
-    const response = await fetch(JSONBIN_URL, {
-      headers: { 'X-Master-Key': JSONBIN_KEY }
+    const response = await fetch(6a43b6f6f5f4af5e29474e9d, {
+      headers: { 'X-Master-Key': $2a$10$EpOAjx/FKAHgRZKIOZMsP.V2n25YRamh3v4m9H6fmRfm3eeZCfN36 }
     });
     const data = await response.json();
     users = data.record.users || [];
