@@ -1,221 +1,428 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sanchez Admin Panel</title>
-<style>
-/* استایل‌های قبلی */
-body{font-family:Arial,sans-serif;background:#0b1220;color:white;text-align:center;padding:20px}
-h1{color:#00d4ff}
-input,button,select{padding:8px;margin:4px;border-radius:6px;border:none}
-button{cursor:pointer;background:#00aaff;color:white}
-table{margin:auto;width:90%;border-collapse:collapse;background:#111b2e;border-radius:10px;overflow:hidden}
-th,td{padding:10px;border-bottom:1px solid #223}
-th{background:#00aaff}
-tr:hover{background:#1b2a44}
-.rank10{color:#ff2d2d;font-weight:bold}
-.rank9{color:#ff5e00;font-weight:bold}
-.rank8{color:#ff9f1a;font-weight:bold}
-.rank7{color:#ffd000;font-weight:bold}
-.rank6{color:#b6ff00;font-weight:bold}
-.rank5{color:#00ff6a;font-weight:bold}
-.rank4{color:#00ffa6;font-weight:bold}
-.rank3{color:#00d4ff;font-weight:bold}
-.rank2{color:#3b82f6;font-weight:bold}
-.rank1{color:#a1a1aa;font-weight:bold}
-#panel{display:none;margin:15px}
-.tag{display:inline-block;padding:4px 8px;margin:2px;border-radius:8px;font-size:12px;font-weight:bold}
-.farmer{background:#22c55e}.robber{background:#ef4444}.chopper{background:#f59e0b}
-.useless{background:#6b7280}.aimgod{background:#8b5cf6}.dispatch{background:#06b6d4}
-.guard{background:#3b82f6}.staff{background:#ec4899}
-#status{position:fixed;top:10px;right:10px;padding:8px 15px;border-radius:20px;font-size:13px;z-index:999}
-.status-online{background:#22c55e;color:white}
-.status-offline{background:#ef4444;color:white}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sanchez Admin Panel</title>
+    <style>
+        /* استایل‌های قبلی (همان‌هایی که خودتان داشتید) */
+        body {
+            font-family: Arial, sans-serif;
+            background: #0b1220;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            color: #00d4ff;
+        }
+        input,
+        button,
+        select {
+            padding: 8px;
+            margin: 4px;
+            border-radius: 6px;
+            border: none;
+        }
+        button {
+            cursor: pointer;
+            background: #00aaff;
+            color: white;
+        }
+        table {
+            margin: auto;
+            width: 90%;
+            border-collapse: collapse;
+            background: #111b2e;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        th,
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #223;
+        }
+        th {
+            background: #00aaff;
+        }
+        tr:hover {
+            background: #1b2a44;
+        }
+        .rank10 {
+            color: #ff2d2d;
+            font-weight: bold;
+        }
+        .rank9 {
+            color: #ff5e00;
+            font-weight: bold;
+        }
+        .rank8 {
+            color: #ff9f1a;
+            font-weight: bold;
+        }
+        .rank7 {
+            color: #ffd000;
+            font-weight: bold;
+        }
+        .rank6 {
+            color: #b6ff00;
+            font-weight: bold;
+        }
+        .rank5 {
+            color: #00ff6a;
+            font-weight: bold;
+        }
+        .rank4 {
+            color: #00ffa6;
+            font-weight: bold;
+        }
+        .rank3 {
+            color: #00d4ff;
+            font-weight: bold;
+        }
+        .rank2 {
+            color: #3b82f6;
+            font-weight: bold;
+        }
+        .rank1 {
+            color: #a1a1aa;
+            font-weight: bold;
+        }
+        #panel {
+            display: none;
+            margin: 15px;
+        }
+        .tag {
+            display: inline-block;
+            padding: 4px 8px;
+            margin: 2px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .farmer {
+            background: #22c55e;
+        }
+        .robber {
+            background: #ef4444;
+        }
+        .chopper {
+            background: #f59e0b;
+        }
+        .useless {
+            background: #6b7280;
+        }
+        .aimgod {
+            background: #8b5cf6;
+        }
+        .dispatch {
+            background: #06b6d4;
+        }
+        .guard {
+            background: #3b82f6;
+        }
+        .staff {
+            background: #ec4899;
+        }
+        #status {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            z-index: 999;
+            font-weight: bold;
+        }
+        .status-online {
+            background: #22c55e;
+            color: white;
+        }
+        .status-offline {
+            background: #ef4444;
+            color: white;
+        }
+        .loading {
+            color: #00d4ff;
+            font-size: 16px;
+            margin: 10px;
+        }
+    </style>
 </head>
 <body>
 
-<div id="status" class="status-offline">⏳ در حال اتصال...</div>
+    <div id="status" class="status-offline">⏳ در حال اتصال...</div>
+    <h1>🔫 Sanchez Admin Panel</h1>
 
-<h1>Sanchez Admin Panel</h1>
+    <div id="loginBox">
+        <input type="password" id="pass" placeholder="رمز ادمین">
+        <button onclick="login()">ورود</button>
+    </div>
 
-<div id="loginBox">
-<input type="password" id="pass" placeholder="رمز ادمین">
-<button onclick="login()">ورود</button>
-</div>
+    <div id="panel">
+        <input type="text" id="name" placeholder="نام کاربر">
+        <div style="margin:10px 0">
+            <label><input type="checkbox" value="Farmer" class="division"> Farmer</label>
+            <label><input type="checkbox" value="Robber" class="division"> Robber</label>
+            <label><input type="checkbox" value="Chopper" class="division"> Chopper</label>
+            <label><input type="checkbox" value="Useless" class="division"> Useless</label>
+            <label><input type="checkbox" value="AimGod" class="division"> AimGod</label>
+            <label><input type="checkbox" value="Dispatch" class="division"> Dispatch</label>
+            <label><input type="checkbox" value="Guard" class="division"> Guard</label>
+            <label><input type="checkbox" value="Staff" class="division"> Staff</label>
+        </div>
+        <select id="rank">
+            <option value="10">10</option>
+            <option value="9">9</option>
+            <option value="8">8</option>
+            <option value="7">7</option>
+            <option value="6">6</option>
+            <option value="5">5</option>
+            <option value="4">4</option>
+            <option value="3">3</option>
+            <option value="2">2</option>
+            <option value="1">1</option>
+        </select>
+        <button onclick="addUser()">➕ افزودن</button>
+    </div>
 
-<div id="panel">
-<input type="text" id="name" placeholder="نام کاربر">
-<div style="margin:10px 0">
-<label><input type="checkbox" value="Farmer" class="division"> Farmer</label>
-<label><input type="checkbox" value="Robber" class="division"> Robber</label>
-<label><input type="checkbox" value="Chopper" class="division"> Chopper</label>
-<label><input type="checkbox" value="Useless" class="division"> Useless</label>
-<label><input type="checkbox" value="AimGod" class="division"> AimGod</label>
-<label><input type="checkbox" value="Dispatch" class="division"> Dispatch</label>
-<label><input type="checkbox" value="Guard" class="division"> Guard</label>
-<label><input type="checkbox" value="Staff" class="division"> Staff</label>
-</div>
-<select id="rank">
-<option value="10">10</option><option value="9">9</option><option value="8">8</option>
-<option value="7">7</option><option value="6">6</option><option value="5">5</option>
-<option value="4">4</option><option value="3">3</option><option value="2">2</option>
-<option value="1">1</option>
-</select>
-<button onclick="addUser()">➕ افزودن</button>
-</div>
+    <br>
+    <input type="text" id="search" placeholder="جستجوی نام...">
+    <br><br>
+    <div id="loadingMsg" class="loading">⏳ در حال بارگذاری...</div>
+    <table id="table"></table>
 
-<br>
-<input type="text" id="search" placeholder="جستجوی نام...">
-<br><br>
-<table id="table"></table>
+    <script>
+        // ================================================================
+        // 🔑 **تنظیمات Gist خود را اینجا وارد کنید**
+        // ================================================================
+        const GIST_ID = "YOUR_GIST_ID"; // شناسه Gist (بعد از / در آدرس Gist)
+        const GITHUB_TOKEN = "YOUR_GITHUB_TOKEN"; // توکن شخصی که ساختید
+        const GIST_FILENAME = "db.json"; // نام فایل داخل Gist
+        // ================================================================
 
-<script>
-// ======================================================
-// 🔑 اینجا اطلاعات JSONBin رو وارد کنید:
-// ======================================================
-const JSONBIN_URL = "https://api.jsonbin.io/v3/b/YOUR_BIN_ID";  // <-- Bin ID خود را وارد کنید
-const JSONBIN_KEY = "$2a$10$YOUR_MASTER_KEY";                  // <-- Master Key خود را وارد کنید
-// ======================================================
+        const GIST_API_URL = `https://api.github.com/gists/${GIST_ID}`;
 
-const PASS = "1234";
-let isAdmin = false;
-let users = [];
+        const PASS = "1234";
+        let isAdmin = false;
+        let users = [];
 
-// وضعیت اتصال
-function updateStatus(connected) {
-  const status = document.getElementById('status');
-  if (connected) {
-    status.className = 'status-online';
-    status.textContent = '✅ متصل';
-  } else {
-    status.className = 'status-offline';
-    status.textContent = '🔴 قطع';
-  }
-}
+        // وضعیت اتصال
+        function updateStatus(connected, msg = '') {
+            const status = document.getElementById('status');
+            if (connected) {
+                status.className = 'status-online';
+                status.textContent = '✅ متصل';
+            } else {
+                status.className = 'status-offline';
+                status.textContent = '🔴 ' + (msg || 'قطع');
+            }
+        }
 
-// بارگذاری داده‌ها
-async function loadUsers() {
-  try {
-    const response = await fetch(6a43b6f6f5f4af5e29474e9d, {
-      headers: { 'X-Master-Key': $2a$10$EpOAjx/FKAHgRZKIOZMsP.V2n25YRamh3v4m9H6fmRfm3eeZCfN36 }
-    });
-    const data = await response.json();
-    users = data.record.users || [];
-    updateStatus(true);
-    render();
-  } catch (error) {
-    console.error('خطا:', error);
-    updateStatus(false);
-    users = [];
-    render();
-  }
-}
+        // بارگذاری داده‌ها از Gist
+        async function loadUsers() {
+            try {
+                document.getElementById('loadingMsg').style.display = 'block';
+                const response = await fetch(GIST_API_URL, {
+                    headers: {
+                        'Authorization': `Bearer ${GITHUB_TOKEN}`,
+                        'Accept': 'application/vnd.github+json',
+                        'X-GitHub-Api-Version': '2022-11-28'
+                    }
+                });
 
-// ذخیره داده‌ها
-async function saveUsers() {
-  try {
-    await fetch(JSONBIN_URL, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Master-Key': JSONBIN_KEY
-      },
-      body: JSON.stringify({ users })
-    });
-    return true;
-  } catch (error) {
-    console.error('خطا در ذخیره:', error);
-    return false;
-  }
-}
+                if (!response.ok) throw new Error('خطا در دریافت داده');
 
-function login() {
-  if (document.getElementById("pass").value === PASS) {
-    isAdmin = true;
-    document.getElementById("loginBox").style.display = "none";
-    document.getElementById("panel").style.display = "block";
-    loadUsers();
-  } else {
-    alert("رمز اشتباه است");
-  }
-}
+                const gistData = await response.json();
+                // محتوای فایل JSON را از Gist می‌خوانیم
+                const fileContent = gistData.files[GIST_FILENAME]?.content;
 
-async function addUser() {
-  const name = document.getElementById("name").value.trim();
-  if (!name) { alert("لطفاً نام را وارد کنید"); return; }
-  
-  if (users.some(u => u.name === name)) {
-    alert("این کاربر قبلاً وجود دارد!");
-    return;
-  }
+                if (fileContent) {
+                    const parsedData = JSON.parse(fileContent);
+                    users = parsedData.users || [];
+                } else {
+                    users = [];
+                }
 
-  const divisions = [];
-  document.querySelectorAll(".division:checked").forEach(x => divisions.push(x.value));
-  if (divisions.length === 0) { alert("حداقل یک Division انتخاب کنید"); return; }
+                updateStatus(true);
+                render();
+            } catch (error) {
+                console.error('خطا:', error);
+                updateStatus(false, error.message);
+                users = [];
+                render();
+            } finally {
+                document.getElementById('loadingMsg').style.display = 'none';
+            }
+        }
 
-  const rank = Number(document.getElementById("rank").value);
-  
-  users.push({ name, divisions, rank });
-  const saved = await saveUsers();
-  if (saved) {
-    render();
-    document.getElementById("name").value = "";
-    document.querySelectorAll(".division").forEach(x => x.checked = false);
-  } else {
-    alert("خطا در ذخیره! دوباره تلاش کنید.");
-  }
-}
+        // ذخیره داده‌ها در Gist
+        async function saveUsers() {
+            try {
+                const dataToSave = JSON.stringify({ users }, null, 2);
 
-async function deleteUser(i) {
-  if (!isAdmin) return;
-  if (!confirm(`حذف "${users[i].name}"؟`)) return;
-  users.splice(i, 1);
-  await saveUsers();
-  render();
-}
+                const response = await fetch(GIST_API_URL, {
+                    method: 'PATCH',
+                    headers: {
+                        'Authorization': `Bearer ${GITHUB_TOKEN}`,
+                        'Accept': 'application/vnd.github+json',
+                        'X-GitHub-Api-Version': '2022-11-28',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        files: {
+                            [GIST_FILENAME]: {
+                                content: dataToSave
+                            }
+                        }
+                    })
+                });
 
-async function changeRank(i, val) {
-  users[i].rank = Number(val);
-  await saveUsers();
-  render();
-}
+                if (!response.ok) throw new Error('خطا در ذخیره');
+                return true;
+            } catch (error) {
+                console.error('خطا در ذخیره:', error);
+                alert('❌ خطا در ذخیره! دوباره تلاش کنید.');
+                return false;
+            }
+        }
 
-function render() {
-  users.sort((a, b) => b.rank - a.rank);
-  let html = `<tr><th>نام</th><th>Division</th><th>رنک</th>${isAdmin ? "<th>تغییر رنک</th><th>حذف</th>" : ""}</tr>`;
-  
-  users.forEach((u, i) => {
-    const divs = (u.divisions || []).map(d => `<span class="tag ${d.toLowerCase()}">${d}</span>`).join("");
-    html += `<tr><td>${u.name}</td><td>${divs}</td><td class="rank${u.rank}">${u.rank}</td>`;
-    if (isAdmin) {
-      html += `<td><select onchange="changeRank(${i}, this.value)">
-        ${[10,9,8,7,6,5,4,3,2,1].map(r => `<option value="${r}" ${u.rank==r?'selected':''}>${r}</option>`).join('')}
-      </select></td><td><button onclick="deleteUser(${i})" style="background:#ef4444">❌</button></td>`;
-    }
-    html += `</tr>`;
-  });
-  
-  document.getElementById("table").innerHTML = html;
-}
+        // ورود ادمین
+        function login() {
+            const inputPass = document.getElementById("pass").value;
+            if (inputPass === PASS) {
+                isAdmin = true;
+                document.getElementById("loginBox").style.display = "none";
+                document.getElementById("panel").style.display = "block";
+                loadUsers();
+            } else {
+                alert("رمز اشتباه است");
+            }
+        }
 
-// جستجو
-document.getElementById("search").addEventListener("keyup", function() {
-  const filter = this.value.toLowerCase();
-  const rows = document.querySelectorAll("#table tr");
-  for (let i = 1; i < rows.length; i++) {
-    const name = rows[i].children[0]?.innerText?.toLowerCase() || "";
-    rows[i].style.display = name.includes(filter) ? "" : "none";
-  }
-});
+        // اضافه کردن کاربر
+        async function addUser() {
+            if (!isAdmin) {
+                alert("لطفاً ابتدا وارد شوید");
+                return;
+            }
 
-// Enter
-document.getElementById("name").addEventListener("keyup", e => e.key === "Enter" && addUser());
-document.getElementById("pass").addEventListener("keyup", e => e.key === "Enter" && login());
+            const name = document.getElementById("name").value.trim();
+            if (!name) {
+                alert("لطفاً نام را وارد کنید");
+                return;
+            }
 
-// بارگذاری
-loadUsers();
-</script>
+            if (users.some(u => u.name === name)) {
+                alert("این کاربر قبلاً وجود دارد!");
+                return;
+            }
+
+            const divisions = [];
+            document.querySelectorAll(".division:checked").forEach(x => divisions.push(x.value));
+
+            if (divisions.length === 0) {
+                alert("حداقل یک Division انتخاب کنید");
+                return;
+            }
+
+            const rank = Number(document.getElementById("rank").value);
+
+            users.push({ name, divisions, rank });
+            const saved = await saveUsers();
+
+            if (saved) {
+                render();
+                document.getElementById("name").value = "";
+                document.querySelectorAll(".division").forEach(x => x.checked = false);
+                alert(`✅ کاربر ${name} با موفقیت اضافه شد!`);
+            }
+        }
+
+        // حذف کاربر
+        async function deleteUser(index) {
+            if (!isAdmin) return;
+            if (!confirm(`آیا از حذف "${users[index].name}" مطمئن هستید؟`)) return;
+
+            users.splice(index, 1);
+            await saveUsers();
+            render();
+        }
+
+        // تغییر رنک
+        async function changeRank(index, value) {
+            if (!isAdmin) return;
+
+            users[index].rank = Number(value);
+            await saveUsers();
+            render();
+        }
+
+        // رندر جدول
+        function render() {
+            users.sort((a, b) => b.rank - a.rank);
+
+            let html = `<tr>
+                <th>نام</th>
+                <th>Division</th>
+                <th>رنک</th>
+                ${isAdmin ? "<th>تغییر رنک</th><th>حذف</th>" : ""}
+            </tr>`;
+
+            if (users.length === 0) {
+                html += `<tr><td colspan="${isAdmin ? 5 : 3}" style="color:#888;padding:30px">هیچ کاربری یافت نشد</td></tr>`;
+            } else {
+                users.forEach((u, i) => {
+                    const divs = (u.divisions || []).map(d =>
+                        `<span class="tag ${d.toLowerCase()}">${d}</span>`
+                    ).join("");
+
+                    html += `<tr>
+                        <td>${u.name}</td>
+                        <td>${divs}</td>
+                        <td class="rank${u.rank}">${u.rank}</td>`;
+
+                    if (isAdmin) {
+                        html += `<td>
+                            <select onchange="changeRank(${i}, this.value)">
+                                ${[10,9,8,7,6,5,4,3,2,1].map(r => 
+                                    `<option value="${r}" ${u.rank == r ? 'selected' : ''}>${r}</option>`
+                                ).join('')}
+                            </select>
+                        </td>
+                        <td><button onclick="deleteUser(${i})" style="background:#ef4444">❌</button></td>`;
+                    }
+
+                    html += `</tr>`;
+                });
+            }
+
+            document.getElementById("table").innerHTML = html;
+        }
+
+        // جستجو
+        document.getElementById("search").addEventListener("keyup", function() {
+            const filter = this.value.toLowerCase();
+            const rows = document.querySelectorAll("#table tr");
+            for (let i = 1; i < rows.length; i++) {
+                const name = rows[i].children[0]?.innerText?.toLowerCase() || "";
+                rows[i].style.display = name.includes(filter) ? "" : "none";
+            }
+        });
+
+        // کلید Enter
+        document.getElementById("name").addEventListener("keyup", e => e.key === "Enter" && addUser());
+        document.getElementById("pass").addEventListener("keyup", e => e.key === "Enter" && login());
+
+        // بارگذاری اولیه
+        loadUsers();
+
+        // آپدیت خودکار هر 15 ثانیه (برای هماهنگی بین کاربران)
+        setInterval(() => {
+            if (isAdmin) loadUsers();
+        }, 15000);
+
+        console.log('✅ پنل مدیریت با GitHub Gist آماده است!');
+    </script>
 </body>
 </html>
