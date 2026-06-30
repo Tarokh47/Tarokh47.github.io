@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sanchez Admin Panel</title>
 <style>
+/* استایل‌های قبلی به همین شکل */
 body{font-family:Arial,sans-serif;background:#0b1220;color:white;text-align:center;padding:20px}
 h1{color:#00d4ff}
 input,button,select{padding:8px;margin:4px;border-radius:6px;border:none}
@@ -117,18 +118,17 @@ async function loadUsers() {
     }
 }
 
-// ذخیره داده‌ها در فایل JSON (از طریق GitHub API)
+// ================================================================
+// 🔧 تابع ذخیره‌سازی اصلاح شده
+// ================================================================
 async function saveUsers() {
     try {
-        // اول باید فایل فعلی رو بگیریم تا SHA رو داشته باشیم
-        const getResponse = await fetch(JSON_URL);
-        const currentContent = await getResponse.text();
+        // آدرس درست GitHub API
+        const repoUrl = "https://api.github.com/repos/Tarokh47/Tarokh47.github.io/contents/data.json";
         
-        // برای آپدیت فایل، باید از GitHub API استفاده کنیم
-        const repoUrl = JSON_URL.replace('raw.githubusercontent.com', 'api.github.com/repos')
-                               .replace('/main/', '/contents/');
+        console.log('📤 در حال ذخیره داده‌ها...');
         
-        // SHA رو از پاسخ قبلی بگیریم
+        // 1. اطلاعات فعلی فایل رو بگیریم تا SHA رو داشته باشیم
         const shaResponse = await fetch(repoUrl, {
             headers: {
                 'Authorization': `Bearer ${GITHUB_TOKEN}`,
@@ -136,12 +136,21 @@ async function saveUsers() {
             }
         });
         
-        if (!shaResponse.ok) throw new Error('خطا در دریافت اطلاعات فایل');
+        if (!shaResponse.ok) {
+            const errorData = await shaResponse.json();
+            console.error('❌ خطا در دریافت SHA:', errorData);
+            throw new Error('خطا در دریافت اطلاعات فایل: ' + (errorData.message || ''));
+        }
         
         const fileInfo = await shaResponse.json();
         const sha = fileInfo.sha;
+        console.log('✅ SHA دریافت شد:', sha);
         
-        // حالا فایل رو آپدیت کنیم
+        // 2. محتوای جدید رو به Base64 تبدیل کنیم (با پشتیبانی از فارسی)
+        const content = JSON.stringify({ users }, null, 2);
+        const encodedContent = btoa(unescape(encodeURIComponent(content)));
+        
+        // 3. فایل رو آپدیت کنیم
         const updateResponse = await fetch(repoUrl, {
             method: 'PUT',
             headers: {
@@ -151,20 +160,26 @@ async function saveUsers() {
             },
             body: JSON.stringify({
                 message: 'آپدیت داده‌های کاربران',
-                content: btoa(JSON.stringify({ users }, null, 2)),
+                content: encodedContent,
                 sha: sha
             })
         });
         
-        if (!updateResponse.ok) throw new Error('خطا در ذخیره');
+        if (!updateResponse.ok) {
+            const errorData = await updateResponse.json();
+            console.error('❌ خطا در ذخیره:', errorData);
+            throw new Error('خطا در ذخیره: ' + (errorData.message || ''));
+        }
         
+        console.log('✅ داده‌ها با موفقیت ذخیره شدند!');
         return true;
     } catch (error) {
-        console.error('خطا در ذخیره:', error);
-        alert('❌ خطا در ذخیره! دوباره تلاش کنید.');
+        console.error('❌ خطا در ذخیره:', error);
+        alert('❌ خطا در ذخیره! ' + error.message);
         return false;
     }
 }
+// ================================================================
 
 // ورود ادمین
 function login() {
