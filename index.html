@@ -79,7 +79,8 @@ tr:hover{background:#1b2a44}
 <script>
 // ======== تنظیمات Gist شما ========
 const GIST_ID = 'db978b270d78413f39a6cd37f7b6a480';
-const GITHUB_TOKEN = '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';
+// توکن جدید رو اینجا بذار ↓↓↓
+const GITHUB_TOKEN = 'ghp_اینجا_توکن_جدیدت_رو_بذار';
 
 // ======== متغیرها ========
 const PASS="1234";
@@ -100,12 +101,14 @@ async function loadFromGist() {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     
-    let content = '[]';
+    let content = '{"users": []}';
     if (data.files && data.files['users.json']) {
       content = data.files['users.json'].content;
     }
     
-    users = JSON.parse(content);
+    const parsed = JSON.parse(content);
+    // ساختار جدید: { users: [...] }
+    users = parsed.users || [];
     if (!Array.isArray(users)) users = [];
     setStatus(`✅ ${users.length} کاربر`);
     render();
@@ -116,10 +119,12 @@ async function loadFromGist() {
   }
 }
 
-// ذخیره در Gist
+// ذخیره در Gist با ساختار { users: [...] }
 async function saveToGist() {
   try {
     setStatus('⏳ در حال ذخیره...');
+    const dataToSave = { users: users };
+    
     const res = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
       method: 'PATCH',
       headers: {
@@ -130,7 +135,7 @@ async function saveToGist() {
       body: JSON.stringify({
         files: {
           'users.json': {
-            content: JSON.stringify(users, null, 2)
+            content: JSON.stringify(dataToSave, null, 2)
           }
         }
       })
