@@ -80,7 +80,7 @@ tr:hover{background:#1b2a44}
 // ======== تنظیمات Gist شما ========
 const GIST_ID = 'db978b270d78413f39a6cd37f7b6a480';
 // توکن جدید رو اینجا بذار ↓↓↓
-const GITHUB_TOKEN = 'ghp_اینجا_توکن_جدیدت_رو_بذار';
+const GITHUB_TOKEN = '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';
 
 // ======== متغیرها ========
 const PASS="1234";
@@ -97,7 +97,7 @@ function setStatus(msg, isError=false) {
 async function loadFromGist() {
   try {
     setStatus('⏳ در حال دریافت...');
-    const res = await fetch(`https://api.github.com/gists/${GIST_ID}`);
+    const res = await fetch(`https://api.github.com/gists/${db978b270d78413f39a6cd37f7b6a480}`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     
@@ -125,10 +125,10 @@ async function saveToGist() {
     setStatus('⏳ در حال ذخیره...');
     const dataToSave = { users: users };
     
-    const res = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+    const res = await fetch(`https://api.github.com/gists/${db978b270d78413f39a6cd37f7b6a480}`, {
       method: 'PATCH',
       headers: {
-        'Authorization': `token ${GITHUB_TOKEN}`,
+        'Authorization': `token ${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}`,
         'Content-Type': 'application/json',
         'Accept': 'application/vnd.github.v3+json'
       },
